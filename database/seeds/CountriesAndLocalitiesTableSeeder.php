@@ -50,6 +50,8 @@ class CountriesAndLocalitiesTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('company_branches')->delete();
+        DB::table('addresses')->delete();
         DB::table('localities')->delete();
         DB::table('countries')->delete();
 

@@ -24,6 +24,6 @@ class Address extends Model
      */
     public function locality()
     {
-        return $this->belongsTo('App\Locality');
+        return $this->hasOne('App\Locality');
     }
 }
