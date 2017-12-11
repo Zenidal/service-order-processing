@@ -57,4 +57,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Role');
     }
+
+    public function generateToken()
+    {
+        $this->api_token = str_random(60);
+    }
 }
