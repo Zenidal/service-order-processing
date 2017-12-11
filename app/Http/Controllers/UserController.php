@@ -77,6 +77,10 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user = User::find($id);
+        if (!$user) {
+            return new Response(['error' => "User with id {$id} wasn't deleted."], Response::HTTP_BAD_REQUEST);
+        }
         /** @var Validator $validator */
         $validator = Validator::make($request->all(), [
             'name' => 'min:4|max:255|required',
@@ -90,10 +94,6 @@ class UserController extends Controller
         ]);
         if ($validator->fails()) {
             return new Response(['error' => $validator->errors()->all(), 'user' => $request->all()], Response::HTTP_BAD_REQUEST);
-        }
-        $user = User::find($id);
-        if (!$user) {
-            return new Response(['error' => "User with id {$id} wasn't deleted."], Response::HTTP_BAD_REQUEST);
         }
         $role = Role::find($request->role_id);
         if (!$role) {
