@@ -20,6 +20,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Role extends Model
 {
+    const CUSTOMER_ROLE = 'customer';
+    const ENGINEER_ROLE = 'engineer';
+    const MANAGER_ROLE = 'manager';
+
     /**
      * @var string
      */

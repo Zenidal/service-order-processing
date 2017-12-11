@@ -14,19 +14,19 @@ class RolesAndUsersTableSeeder extends Seeder
     {
         $this->roles = [
             [
-                'name' => 'customer',
+                'name' => Role::CUSTOMER_ROLE,
                 'users' => [
                     ['name' => 'Customer', 'email' => 'customer@example.com', 'password' => Hash::make('customer')]
                 ]
             ],
             [
-                'name' => 'engineer',
+                'name' => Role::ENGINEER_ROLE,
                 'users' => [
                     ['name' => 'Engineer', 'email' => 'engineer@example.com', 'password' => Hash::make('engineer')]
                 ]
             ],
             [
-                'name' => 'manager',
+                'name' => Role::MANAGER_ROLE,
                 'users' => [
                     ['name' => 'Manager', 'email' => 'manager@example.com', 'password' => Hash::make('manager')]
                 ]
