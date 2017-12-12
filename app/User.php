@@ -61,9 +61,17 @@ class User extends Authenticatable
     /**
      * Get engineer orders.
      */
-    public function orders()
+    public function engineerOrders()
     {
         return $this->hasMany('App\Order', 'engineer_id', 'id');
+    }
+
+    /**
+     * Get customer orders.
+     */
+    public function ownerOrders()
+    {
+        return $this->hasMany('App\Order', 'owner_id', 'id');
     }
 
     /**

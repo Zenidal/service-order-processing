@@ -40,7 +40,17 @@ class Order extends Model
         return $this->belongsTo('App\User');
     }
 
+    /**
+     * Get assigned to order owner.
+     */
+    public function owner()
+    {
+        return $this->belongsTo('App\User');
+    }
 
+    /**
+     * Get order status change histories.
+     */
     public function orderStatusHistories()
     {
         return $this->hasMany('App\OrderStatusHistory');

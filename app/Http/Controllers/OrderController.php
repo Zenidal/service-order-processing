@@ -58,6 +58,7 @@ class OrderController extends Controller
         $order = new Order();
         $order->description = $request->description;
         $order->status = OrderStateMachine::OPEN_STATUS;
+        $order->owner_id = \Auth::user()->id;
         $companyBranch->orders()->save($order);
         return new Response(['error' => '', 'order' => $order]);
     }
@@ -123,7 +124,7 @@ class OrderController extends Controller
             return new Response(['error' => 'Provide valid engineer id.', 'order' => $order]);
         }
         if ($this->orderStateMachine->resolveStateChange($order, OrderStateMachine::ASSIGN_OPERATION)) {
-            $engineer->orders()->save($order);
+            $engineer->engineerOrders()->save($order);
             return new Response(['error' => '', 'order' => $order]);
         }
         return new Response(['error' => 'You cannot assign this order.', 'order' => $order], 400);
