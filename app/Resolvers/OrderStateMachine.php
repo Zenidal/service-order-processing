@@ -2,8 +2,10 @@
 
 namespace App\Resolvers;
 
+use App\Exceptions\OrderStateException;
 use App\Order;
 use App\OrderStatusHistory;
+use Mockery\Exception;
 
 class OrderStateMachine
 {
@@ -43,6 +45,12 @@ class OrderStateMachine
         ]
     ];
 
+    /**
+     * @param Order $order
+     * @param $operationName
+     * @return OrderStatusHistory
+     * @throws OrderStateException
+     */
     public function resolveStateChange(Order &$order, $operationName)
     {
         $orderStatus = $order->status;
@@ -56,8 +64,8 @@ class OrderStateMachine
             $orderStatusHistory->user_id = \Auth::user()->id;
             $order->save();
             $order->orderStatusHistories()->save($orderStatusHistory);
-            return true;
+            return $orderStatusHistory;
         }
-        return false;
+        throw new OrderStateException();
     }
 }

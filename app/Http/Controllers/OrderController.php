@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CompanyBranch;
+use App\Exceptions\OrderStateException;
 use App\Order;
 use App\Resolvers\OrderStateMachine;
 use App\User;
@@ -41,7 +42,7 @@ class OrderController extends Controller
         if ($user->role->isEngineer()) {
             $orders = Order::where('engineer_id', $user->id)->get();
         }
-        if($user->role->isCustomer()){
+        if ($user->role->isCustomer()) {
             $orders = Order::where('owner_id', $user->id)->get();
         }
 
@@ -135,58 +136,95 @@ class OrderController extends Controller
         if (!$engineer || !$engineer->role->isEngineer()) {
             return new Response(['error' => 'Provide valid engineer id.', 'order' => $order]);
         }
-        if ($this->orderStateMachine->resolveStateChange($order, OrderStateMachine::ASSIGN_OPERATION)) {
+        try {
+            $orderHistory = $this->orderStateMachine->resolveStateChange($order, OrderStateMachine::ASSIGN_OPERATION);
             $engineer->engineerOrders()->save($order);
+            if ($request->comment) {
+                $orderHistory->comment = $request->comment;
+                $orderHistory->save();
+            }
             return new Response(['error' => '', 'order' => $order]);
+        } catch (OrderStateException $exception) {
+            return new Response(['error' => 'You cannot assign this order.', 'order' => $order], 400);
         }
-        return new Response(['error' => 'You cannot assign this order.', 'order' => $order], 400);
     }
 
     /**
      * @param  Order $order
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function startProgress(Order $order)
+    public function startProgress(Order $order, Request $request)
     {
-        if ($this->orderStateMachine->resolveStateChange($order, OrderStateMachine::START_PROGRESS_OPERATION)) {
+        try {
+            $orderHistory = $this->orderStateMachine->resolveStateChange($order, OrderStateMachine::START_PROGRESS_OPERATION);
+            if ($request->comment) {
+                $orderHistory->comment = $request->comment;
+                $orderHistory->save();
+            }
             return new Response(['error' => '', 'order' => $order]);
+        } catch (OrderStateException $exception) {
+            return new Response(['error' => 'You cannot start this order.', 'order' => $order], 400);
         }
-        return new Response(['error' => 'You cannot start this order.', 'order' => $order], 400);
     }
 
     /**
      * @param  Order $order
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
-    public function resolve(Order $order)
+    public function resolve(Order $order, Request $request)
     {
-        if ($this->orderStateMachine->resolveStateChange($order, OrderStateMachine::RESOLVE_OPERATION)) {
+        try {
+            $orderHistory = $this->orderStateMachine->resolveStateChange($order, OrderStateMachine::RESOLVE_OPERATION);
+            if ($request->comment) {
+                $orderHistory->comment = $request->comment;
+                $orderHistory->save();
+            }
             return new Response(['error' => '', 'order' => $order]);
+        } catch (OrderStateException $exception) {
+            return new Response(['error' => 'You cannot resolve this order.', 'order' => $order], 400);
         }
-        return new Response(['error' => 'You cannot resolve this order.', 'order' => $order], 400);
     }
 
     /**
      * @param  Order $order
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
-    public function close(Order $order)
+    public function close(Order $order, Request $request)
     {
-        if ($this->orderStateMachine->resolveStateChange($order, OrderStateMachine::CLOSE_OPERATION)) {
+        try {
+            $orderHistory = $this->orderStateMachine->resolveStateChange($order, OrderStateMachine::CLOSE_OPERATION);
+            if ($request->comment) {
+                $orderHistory->comment = $request->comment;
+                $orderHistory->save();
+            }
             return new Response(['error' => '', 'order' => $order]);
+        } catch (OrderStateException $exception) {
+            return new Response(['error' => 'You cannot close this order.', 'order' => $order], 400);
         }
-        return new Response(['error' => 'You cannot close this order.', 'order' => $order], 400);
     }
 
     /**
      * @param  Order $order
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
-    public function reopen(Order $order)
+    public function reopen(Order $order, Request $request)
     {
-        if ($this->orderStateMachine->resolveStateChange($order, OrderStateMachine::REOPEN_OPERATION)) {
-            return new Response(['error' => '', 'order' => $order]);
+        if (!$request->comment) {
+            return new Response(['error' => 'Provide cause of reopening.', 'order' => $order]);
         }
-        return new Response(['error' => 'You cannot resolve this order.', 'order' => $order], 400);
+        try {
+            $orderHistory = $this->orderStateMachine->resolveStateChange($order, OrderStateMachine::REOPEN_OPERATION);
+            if ($request->comment) {
+                $orderHistory->comment = $request->comment;
+                $orderHistory->save();
+            }
+            return new Response(['error' => '', 'order' => $order]);
+        } catch (OrderStateException $exception) {
+            return new Response(['error' => 'You cannot resolve this order.', 'order' => $order], 400);
+        }
     }
 }
