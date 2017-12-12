@@ -9,12 +9,12 @@ use Mockery\Exception;
 
 class OrderStateMachine
 {
-    const OPEN_STATUS = 1;
-    const ASSIGNED_STATUS = 2;
-    const IN_PROCESS_STATUS = 3;
-    const RESOLVED_STATUS = 4;
-    const CLOSED_STATUS = 5;
-    const REOPENED_STATUS = 6;
+    const OPEN_STATUS = '1';
+    const ASSIGNED_STATUS = '2';
+    const IN_PROCESS_STATUS = '3';
+    const RESOLVED_STATUS = '4';
+    const CLOSED_STATUS = '5';
+    const REOPENED_STATUS = '6';
 
     const ASSIGN_OPERATION = 'assign';
     const START_PROGRESS_OPERATION = 'start_progress';

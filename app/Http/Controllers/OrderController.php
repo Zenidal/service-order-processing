@@ -25,6 +25,7 @@ class OrderController extends Controller
     public function __construct(OrderStateMachine $orderStateMachine)
     {
         $this->orderStateMachine = $orderStateMachine;
+        $this->authorizeResource(Order::class);
     }
 
     /**

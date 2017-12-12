@@ -24,11 +24,11 @@ Route::group(['middleware' => 'auth:api'], function (){
     Route::resource('orders', 'OrderController', ['except' => [
         'edit', 'create'
     ]]);
-    Route::post('orders/{order}/assign', 'OrderController@assign');
-    Route::post('orders/{order}/start-progress', 'OrderController@startProgress');
-    Route::post('orders/{order}/resolve', 'OrderController@resolve');
-    Route::post('orders/{order}/close', 'OrderController@close');
-    Route::post('orders/{order}/reopen', 'OrderController@reopen');
+    Route::post('orders/{order}/assign', 'OrderController@assign')->middleware('can:assign,order');
+    Route::post('orders/{order}/start-progress', 'OrderController@startProgress')->middleware('can:startProgress,order');
+    Route::post('orders/{order}/resolve', 'OrderController@resolve')->middleware('can:resolve,order');
+    Route::post('orders/{order}/close', 'OrderController@close')->middleware('can:close,order');
+    Route::post('orders/{order}/reopen', 'OrderController@reopen')->middleware('can:reopen,order');
 });
 
 Route::post('register', 'Auth\RegisterController@register');
