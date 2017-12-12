@@ -33,6 +33,14 @@ class Order extends Model
     }
 
     /**
+     * Get assigned to order engineer.
+     */
+    public function engineer()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    /**
      * @return string
      */
     public function getStatus()
