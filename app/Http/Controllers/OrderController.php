@@ -33,7 +33,19 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return new Response(['error' => '', 'orders' => Order::all()]);
+        $user = \Auth::user();
+        $orders = [];
+        if ($user->role->isManager()) {
+            $orders = Order::all();
+        }
+        if ($user->role->isEngineer()) {
+            $orders = Order::where('engineer_id', $user->id)->get();
+        }
+        if($user->role->isCustomer()){
+            $orders = Order::where('owner_id', $user->id)->get();
+        }
+
+        return new Response(['error' => '', 'orders' => $orders]);
     }
 
     /**
