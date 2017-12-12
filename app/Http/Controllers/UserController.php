@@ -25,7 +25,7 @@ class UserController extends Controller
     public function index()
     {
         $this->authorize('index', [\Auth::user()]);
-        return new Response(['error' => '', User::all()]);
+        return new Response(['error' => '', 'users' => User::all()]);
     }
 
     /**
