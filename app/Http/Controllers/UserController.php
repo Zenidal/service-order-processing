@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(User::class);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,6 +24,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', [\Auth::user()]);
         return new Response(['error' => '', User::all()]);
     }
 
@@ -40,8 +46,7 @@ class UserController extends Controller
         if ($validator->fails()) {
             return new Response(['error' => $validator->errors()->all(), 'user' => $request->all()], Response::HTTP_BAD_REQUEST);
         }
-        $role = Role::find($request->role_id);
-        if (!$role) {
+        if (!($role = Role::find($request->role_id))) {
             return new Response(['error' => "Role with id {$request->role_id} not found.", 'user' => $request], Response::HTTP_BAD_REQUEST);
         }
         $user = new User([
@@ -56,31 +61,23 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param User $user
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        $user = User::find($id);
-        if (!$user) {
-            return new Response(['error' => "User with id {$id} not found."], Response::HTTP_NOT_FOUND);
-        }
         return new Response(['error' => '', 'user' => $user]);
     }
 
     /**
      * Update the specified resource in storage.
      *
+     * @param User $user
      * @param  \Illuminate\Http\Request $request
-     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(User $user, Request $request)
     {
-        $user = User::find($id);
-        if (!$user) {
-            return new Response(['error' => "User with id {$id} wasn't deleted."], Response::HTTP_BAD_REQUEST);
-        }
         /** @var Validator $validator */
         $validator = Validator::make($request->all(), [
             'name' => 'min:4|max:255|required',
@@ -88,15 +85,14 @@ class UserController extends Controller
             'email' => [
                 'email',
                 'required',
-                Rule::unique('users')->ignore($id),
+                Rule::unique('users')->ignore($user->id),
             ],
             'role_id' => 'numeric|required'
         ]);
         if ($validator->fails()) {
             return new Response(['error' => $validator->errors()->all(), 'user' => $request->all()], Response::HTTP_BAD_REQUEST);
         }
-        $role = Role::find($request->role_id);
-        if (!$role) {
+        if (!($role = Role::find($request->role_id))) {
             return new Response(['error' => "Role with id {$request->role_id} not found.", 'user' => $request], Response::HTTP_BAD_REQUEST);
         }
         $user->name = $request->name;
@@ -109,19 +105,14 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param User $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        /** @var User $user */
-        $user = User::find($id);
-        if ($user) {
-            if ($user->forceDelete()) {
-                return new Response(['error' => '', 'user' => $user]);
-            }
-            return new Response(['error' => "User with id {$id} wasn't deleted."], Response::HTTP_BAD_REQUEST);
+        if ($user->forceDelete()) {
+            return new Response(['error' => '', 'user' => $user]);
         }
-        return new Response(['error' => "User with id {$id} not found."], Response::HTTP_NOT_FOUND);
+        return new Response(['error' => "User with id {$user->id} wasn't deleted."], Response::HTTP_BAD_REQUEST);
     }
 }
