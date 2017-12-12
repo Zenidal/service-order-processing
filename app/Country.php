@@ -23,16 +23,6 @@ use Illuminate\Database\Eloquent\Model;
 class Country extends Model
 {
     /**
-     * @var string
-     */
-    protected $name;
-
-    /*
-     * @var string
-     */
-    protected $isoCode;
-
-    /**
      * Get all country localities.
      */
     public function localities()
@@ -45,7 +35,7 @@ class Country extends Model
      */
     public function getName()
     {
-        return $this->name;
+        return $this->attributes['name'];
     }
 
     /**
@@ -53,7 +43,7 @@ class Country extends Model
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->attributes['name'] = $name;
     }
 
     /**
@@ -61,7 +51,7 @@ class Country extends Model
      */
     public function getIsoCode()
     {
-        return $this->isoCode;
+        return $this->attributes['isoCode'];
     }
 
     /**
@@ -69,6 +59,6 @@ class Country extends Model
      */
     public function setIsoCode($isoCode)
     {
-        $this->isoCode = $isoCode;
+        $this->attributes['isoCode'] = $isoCode;
     }
 }

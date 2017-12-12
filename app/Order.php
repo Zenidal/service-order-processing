@@ -25,16 +25,6 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     /**
-     * @var string
-     */
-    protected $status;
-
-    /**
-     * @var string
-     */
-    protected $description;
-
-    /**
      * Get branch of the company, where equipment where broken
      */
     public function companyBranch()
@@ -47,7 +37,7 @@ class Order extends Model
      */
     public function getStatus()
     {
-        return $this->status;
+        return $this->attributes['status'];
     }
 
     /**
@@ -55,7 +45,7 @@ class Order extends Model
      */
     public function setStatus($status)
     {
-        $this->status = $status;
+        $this->attributes['status'] = $status;
     }
 
     /**
@@ -63,7 +53,7 @@ class Order extends Model
      */
     public function getDescription()
     {
-        return $this->description;
+        return $this->attributes['description'];
     }
 
     /**
@@ -71,6 +61,6 @@ class Order extends Model
      */
     public function setDescription($description)
     {
-        $this->description = $description;
+        $this->attributes['description'] = $description;
     }
 }

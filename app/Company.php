@@ -21,11 +21,6 @@ use Illuminate\Database\Eloquent\Model;
 class Company extends Model
 {
     /**
-     * @var string
-     */
-    protected $name;
-
-    /**
      * Get all child company branches.
      */
     public function companyBranches()
@@ -38,7 +33,7 @@ class Company extends Model
      */
     public function getName()
     {
-        return $this->name;
+        return $this->attributes['name'];
     }
 
     /**
@@ -46,6 +41,6 @@ class Company extends Model
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->attributes['name'] = $name;
     }
 }

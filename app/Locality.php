@@ -24,17 +24,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Locality extends Model
 {
-    /**
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * @var string
-     * type of administrative unit (town. city, village, ...)
-     */
-    protected $type;
-
     public function country()
     {
         return $this->belongsTo('App\Country');
@@ -45,7 +34,7 @@ class Locality extends Model
      */
     public function getName()
     {
-        return $this->name;
+        return $this->attributes['name'];
     }
 
     /**
@@ -53,7 +42,7 @@ class Locality extends Model
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->attributes['name'] = $name;
     }
 
     /**
@@ -61,7 +50,7 @@ class Locality extends Model
      */
     public function getType()
     {
-        return $this->type;
+        return $this->attributes['type'];
     }
 
     /**
@@ -69,6 +58,6 @@ class Locality extends Model
      */
     public function setType($type)
     {
-        $this->type = $type;
+        $this->attributes['type'] = $type;
     }
 }

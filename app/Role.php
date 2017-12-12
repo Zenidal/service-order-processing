@@ -25,11 +25,6 @@ class Role extends Model
     const MANAGER_ROLE = 'manager';
 
     /**
-     * @var string
-     */
-    protected $name;
-
-    /**
      * Get the users for the role.
      */
     public function users()
@@ -42,7 +37,7 @@ class Role extends Model
      */
     public function getName()
     {
-        return $this->name;
+        return $this->attributes['name'];
     }
 
     /**
@@ -50,6 +45,21 @@ class Role extends Model
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->attributes['name'] = $name;
+    }
+
+    public function isCustomer()
+    {
+        return $this->getName() === Role::CUSTOMER_ROLE;
+    }
+
+    public function isEngineer()
+    {
+        return $this->getName() === Role::ENGINEER_ROLE;
+    }
+
+    public function isManager()
+    {
+        return $this->getName() === Role::MANAGER_ROLE;
     }
 }
