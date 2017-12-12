@@ -40,6 +40,12 @@ class Order extends Model
         return $this->belongsTo('App\User');
     }
 
+
+    public function orderStatusHistories()
+    {
+        return $this->hasMany('App\OrderStatusHistory');
+    }
+
     /**
      * @return string
      */

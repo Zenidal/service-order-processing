@@ -66,6 +66,14 @@ class User extends Authenticatable
         return $this->hasMany('App\Order', 'engineer_id', 'id');
     }
 
+    /**
+     * Get engineer orders.
+     */
+    public function orderStatusHistories()
+    {
+        return $this->hasMany('App\OrderStatusHistory');
+    }
+
     public function generateToken()
     {
         $this->api_token = str_random(60);

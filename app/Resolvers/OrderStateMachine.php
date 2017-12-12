@@ -3,6 +3,7 @@
 namespace App\Resolvers;
 
 use App\Order;
+use App\OrderStatusHistory;
 
 class OrderStateMachine
 {
@@ -47,8 +48,14 @@ class OrderStateMachine
         $orderStatus = $order->status;
         $operation = $this->statusChanges[$operationName];
         if (in_array($orderStatus, $operation['beginStatuses'])) {
-            $order->status = $operation['endStatus'];
+            $oldStatus = $order->status;
+            $newStatus = $order->status = $operation['endStatus'];
+            $orderStatusHistory = new OrderStatusHistory();
+            $orderStatusHistory->from_status = $oldStatus;
+            $orderStatusHistory->to_status = $newStatus;
+            $orderStatusHistory->user_id = \Auth::user()->id;
             $order->save();
+            $order->orderStatusHistories()->save($orderStatusHistory);
             return true;
         }
         return false;
