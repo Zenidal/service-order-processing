@@ -53,6 +53,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'role_id' => 'required|numeric'
         ]);
     }
 
@@ -64,12 +65,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $role = Role::where(['name' => 'customer'])->first();
         $user = new User();
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->password = bcrypt($data['password']);
-        $user->role_id = $role->id;
+        $user->role_id = $data['role_id'];
         $user->save();
 
         return $user;
