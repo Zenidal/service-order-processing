@@ -7,6 +7,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -55,6 +56,8 @@ class Handler extends ExceptionHandler
             return $this->unauthorized($request, $exception);
         } elseif ($exception instanceof ModelNotFoundException) {
             return $this->modelNotFound($request, $exception);
+        } elseif ($exception instanceof MethodNotAllowedHttpException){
+            return $this->methodNotAllowed($request, $exception);
         }
 
         return parent::render($request, $exception);
@@ -73,5 +76,10 @@ class Handler extends ExceptionHandler
     protected function modelNotFound($request, ModelNotFoundException $exception)
     {
         return response()->json(['error' => 'Not found'], 404);
+    }
+
+    protected function methodNotAllowed($request, MethodNotAllowedHttpException $exception)
+    {
+        return response()->json(['error' => 'Method not allowed']);
     }
 }

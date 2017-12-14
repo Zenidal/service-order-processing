@@ -13,10 +13,14 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-Route::group(['middleware' => 'auth:api'], function (){
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, DELETE');
+header('Access-Control-Allow-Headers: Authorization, Content-Type');
+
+Route::group(['middleware' => ['auth:api']], function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
     Route::resource('users', 'UserController', ['except' => [
         'edit', 'create'
     ]]);
