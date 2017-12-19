@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Address extends Model
 {
+    protected $with = ['locality'];
+
     /**
      * @return string
      */
@@ -52,6 +54,6 @@ class Address extends Model
      */
     public function locality()
     {
-        return $this->hasOne('App\Locality');
+        return $this->belongsTo('App\Locality');
     }
 }

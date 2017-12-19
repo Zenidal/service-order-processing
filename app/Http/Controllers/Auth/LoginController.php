@@ -57,7 +57,7 @@ class LoginController extends Controller
             $user->save();
 
             return response()->json([
-                'user' => array_merge($user->toArray(), ['role' => $user->role->toArray()]),
+                'user' => array_merge($user->toArray()),
             ]);
         }
 

@@ -24,9 +24,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Locality extends Model
 {
+    protected $with = ['country'];
+
     public function country()
     {
         return $this->belongsTo('App\Country');
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany('App\Address');
     }
 
     /**

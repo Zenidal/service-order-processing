@@ -24,6 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Order extends Model
 {
+    protected $with = ['companyBranch', 'engineer', 'owner'];
+
     /**
      * Get branch of the company, where equipment where broken
      */

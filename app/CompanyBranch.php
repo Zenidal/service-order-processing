@@ -24,6 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class CompanyBranch extends Model
 {
+    protected $with = ['address', 'company'];
+
     /**
      * Get exact address of company branch.
      */
