@@ -10,6 +10,19 @@ class UserService {
         }
         this.api = new AxiosApiInstance();
 
+        this.api.axiosObject.interceptors.response.use(
+            function (response) {
+                return response;
+            },
+            function (error) {
+                if (error.response.status === 401) {
+                    AxiosApiInstance.removeApiToken();
+                    localStorage.removeItem('apiToken');
+                    localStorage.removeItem('user');
+                }
+                return Promise.reject(error);
+            });
+
         return instance;
     }
 
@@ -35,7 +48,7 @@ class UserService {
                     let apiToken = response.data.user['api_token'];
                     AxiosApiInstance.setApiHeader(apiToken);
                     localStorage.setItem('apiToken', apiToken);
-                    localStorage.setItem('user', response.data.user);
+                    localStorage.setItem('user', JSON.stringify(response.data.user));
                     successCallback(response);
                 }
             )
@@ -54,18 +67,13 @@ class UserService {
             )
             .catch(
                 function (error) {
-                    if (error.response.status === 404) {
-                        AxiosApiInstance.removeApiToken();
-                        localStorage.removeItem('apiToken');
-                        localStorage.removeItem('user');
-                    }
                     errorCallback(error);
                 }
             );
     }
 
     static user() {
-        return localStorage.getItem('user') || null;
+        return JSON.parse(localStorage.getItem('user')) || null;
     }
 
     static apiToken() {

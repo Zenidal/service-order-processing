@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import UserService from "../services/UserService";
 import {HOME_PATH, REGISTER_PATH, LOGIN_PATH} from '../constants/RoutePaths';
 import {withRouter} from 'react-router';
+import HeaderUserInfo from "./HeaderUserInfo";
 
 class CustomHeader extends Component {
     constructor(props) {
@@ -49,6 +50,7 @@ class CustomHeader extends Component {
                     {loginLink}
                     {registerLink}
                     {logoutLink}
+                    <HeaderUserInfo user={UserService.user()}/>
                 </Menu>
             </Header>
         );

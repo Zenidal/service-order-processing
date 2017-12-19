@@ -57,7 +57,7 @@ class LoginController extends Controller
             $user->save();
 
             return response()->json([
-                'user' => $user->toArray(),
+                'user' => array_merge($user->toArray(), ['role' => $user->role->toArray()]),
             ]);
         }
 
@@ -70,10 +70,10 @@ class LoginController extends Controller
         $user = Auth::guard('api')->user();
 
         if (!$user) {
-            return response()->json(['error' => 'User not found.'], 404);
+            return response()->json(['error' => 'User not found.'], Response::HTTP_UNAUTHORIZED);
         }
         $user->api_token = null;
         $user->save();
-        return response()->json(['data' => 'User logged out.'], 200);
+        return response()->json(['data' => 'User logged out.']);
     }
 }
