@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import CustomHeader from './CustomHeader';
-import CustomContent from './CustomContent';
+import Routes from './Routes';
 
 export default class App extends Component {
     render() {
         return (
             <div>
                 <CustomHeader/>
-                <CustomContent/>
+                <Routes/>
             </div>
         );
     }

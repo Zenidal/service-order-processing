@@ -1,14 +1,20 @@
 import React, {Component} from 'react';
 import {Button, Form, Grid, Header, Message, Segment} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
-import AxiosApiInstance from '../AxiosApiInstance';
+import AxiosApiInstance from '../services/AxiosApiInstance';
+import UserService from '../services/UserService';
+import {API_ROLE_PATH} from "../constants/ApiRoutePaths";
+import {LOGIN_PATH} from "../constants/RoutePaths";
 
 export default class Register extends Component {
     constructor(props) {
         super(props);
+
+        this.api = new AxiosApiInstance();
+        this.userService = new UserService();
+
         this.state = {
             roles: [],
-            api: new AxiosApiInstance(),
             registeredUser: {
                 name: '',
                 email: '',
@@ -45,7 +51,7 @@ export default class Register extends Component {
     }
 
     initializeRoles() {
-        this.state.api.axiosObject.get('/roles')
+        this.api.axiosObject.get(API_ROLE_PATH)
             .then(function (response) {
                 this.setState({
                     roles: response.data.roles.map(function (role, index) {
@@ -92,19 +98,12 @@ export default class Register extends Component {
     }
 
     register() {
-        this.state.api.axiosObject.post('/register', {
-            name: this.state.registeredUser.name,
-            email: this.state.registeredUser.email,
-            password: this.state.registeredUser.password,
-            password_confirmation: this.state.registeredUser.passwordConfirmation,
-            role_id: this.state.registeredUser.roleId,
-        })
-            .then(
-                function (response) {
-                    this.props.history.push('/login')
-                }.bind(this)
-            )
-            .catch(function (error) {
+        this.userService.register(
+            this.state.registeredUser,
+            function (response) {
+                this.props.history.push(LOGIN_PATH)
+            }.bind(this),
+            function (error) {
                 if (error.response) {
                     if (error.response.status === 422) {
                         this.setApiValidationErrors(error.response.data.errors);
@@ -112,7 +111,8 @@ export default class Register extends Component {
                 } else {
                     console.log('Error', error.message);
                 }
-            }.bind(this));
+            }.bind(this)
+        );
     }
 
     render() {
@@ -206,7 +206,7 @@ export default class Register extends Component {
                             </Segment>
                         </Form>
                         <Message>
-                            Do you have account? <Link to='/login'>Sign in</Link>
+                            Do you have account? <Link to={LOGIN_PATH}>Sign in</Link>
                         </Message>
                     </Grid.Column>
                 </Grid>
