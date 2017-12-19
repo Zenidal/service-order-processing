@@ -3,7 +3,7 @@ import {Button, Form, Grid, Header, Message, Segment} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 import AxiosApiInstance from '../services/AxiosApiInstance';
 import UserService from '../services/UserService';
-import {API_ROLE_PATH} from "../constants/ApiRoutePaths";
+import RoleService from '../services/RoleService';
 import {LOGIN_PATH} from "../constants/RoutePaths";
 
 export default class Register extends Component {
@@ -12,6 +12,7 @@ export default class Register extends Component {
 
         this.api = new AxiosApiInstance();
         this.userService = new UserService();
+        this.roleService = new RoleService();
 
         this.state = {
             roles: [],
@@ -51,18 +52,17 @@ export default class Register extends Component {
     }
 
     initializeRoles() {
-        this.api.axiosObject.get(API_ROLE_PATH)
-            .then(function (response) {
-                this.setState({
-                    roles: response.data.roles.map(function (role, index) {
-                        return {
-                            key: role.id,
-                            value: role.id,
-                            text: role.name
-                        };
-                    })
-                });
-            }.bind(this));
+        this.roleService.getAllRoles(function (response) {
+            this.setState({
+                roles: response.data.roles.map(function (role, index) {
+                    return {
+                        key: role.id,
+                        value: role.id,
+                        text: role.name
+                    };
+                })
+            });
+        }.bind(this));
     }
 
     setApiValidationErrors(errors) {
