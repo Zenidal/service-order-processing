@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Table, Icon, Button, Menu} from 'semantic-ui-react'
+import {Table, Icon, Button, Menu, Container} from 'semantic-ui-react'
 import OrderService from "../../services/OrderService";
 import {Link} from 'react-router-dom';
 import {ORDER_PATH} from "../../constants/RoutePaths";
@@ -54,37 +54,39 @@ export default class Orders extends Component {
         }.bind(this));
 
         return (
-            <Table compact celled>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell>Id</Table.HeaderCell>
-                        <Table.HeaderCell>Description</Table.HeaderCell>
-                        <Table.HeaderCell>Status</Table.HeaderCell>
-                        <Table.HeaderCell>Company Name</Table.HeaderCell>
-                        <Table.HeaderCell>Country Name</Table.HeaderCell>
-                        <Table.HeaderCell>Locality Name</Table.HeaderCell>
-                        <Table.HeaderCell>Exact Address</Table.HeaderCell>
-                        <Table.HeaderCell>Created</Table.HeaderCell>
-                        <Table.HeaderCell>Engineer</Table.HeaderCell>
-                        <Table.HeaderCell>Owner</Table.HeaderCell>
-                        <Table.HeaderCell/>
-                    </Table.Row>
-                </Table.Header>
+            <Container>
+                <Table compact celled>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell>Id</Table.HeaderCell>
+                            <Table.HeaderCell>Description</Table.HeaderCell>
+                            <Table.HeaderCell>Status</Table.HeaderCell>
+                            <Table.HeaderCell>Company Name</Table.HeaderCell>
+                            <Table.HeaderCell>Country Name</Table.HeaderCell>
+                            <Table.HeaderCell>Locality Name</Table.HeaderCell>
+                            <Table.HeaderCell>Exact Address</Table.HeaderCell>
+                            <Table.HeaderCell>Created</Table.HeaderCell>
+                            <Table.HeaderCell>Engineer</Table.HeaderCell>
+                            <Table.HeaderCell>Owner</Table.HeaderCell>
+                            <Table.HeaderCell/>
+                        </Table.Row>
+                    </Table.Header>
 
-                <Table.Body>
-                    {columns}
-                </Table.Body>
+                    <Table.Body>
+                        {columns}
+                    </Table.Body>
 
-                <Table.Footer>
-                    <Table.Row>
-                        <Table.HeaderCell>
-                            <Button icon labelPosition='left' primary size='small'>
-                                <Icon name='user'/> Add Order
-                            </Button>
-                        </Table.HeaderCell>
-                    </Table.Row>
-                </Table.Footer>
-            </Table>
+                    <Table.Footer>
+                        <Table.Row>
+                            <Table.HeaderCell>
+                                <Button icon labelPosition='left' primary size='small'>
+                                    <Icon name='user'/> Add Order
+                                </Button>
+                            </Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Footer>
+                </Table>
+            </Container>
         );
     }
 }
