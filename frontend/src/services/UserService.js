@@ -1,5 +1,5 @@
 import AxiosApiInstance from './AxiosApiInstance';
-import {API_LOGIN_PATH, API_LOGOUT_PATH, API_REGISTER_PATH} from "../constants/ApiRoutePaths";
+import {API_LOGIN_PATH, API_LOGOUT_PATH, API_REGISTER_PATH, API_USER_PATH} from "../constants/ApiRoutePaths";
 
 let instance;
 
@@ -52,6 +52,12 @@ class UserService {
                     successCallback(response);
                 }
             )
+            .catch(errorCallback);
+    }
+
+    searchEngineers(successCallback, errorCallback) {
+        this.api.axiosObject.get(API_USER_PATH + '/engineers')
+            .then(successCallback)
             .catch(errorCallback);
     }
 
