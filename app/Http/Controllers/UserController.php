@@ -20,7 +20,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -29,10 +29,32 @@ class UserController extends Controller
     }
 
     /**
+     * Display a listing of the engineers.
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function engineers(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 10;
+        $q = $request->q ? $request->q : '';
+        $this->authorize('index', [\Auth::user()]);
+        return new Response(['error' => '', 'users' => User
+            ::with('role')
+            ->where('name', 'LIKE', '%' . $q . '%')
+            ->whereHas('role', function ($role) {
+                $role->where('name', '=', Role::ENGINEER_ROLE);
+            })
+            ->take($limit)
+            ->get()
+        ]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -62,7 +84,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param User $user
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(User $user)
     {
@@ -74,7 +96,7 @@ class UserController extends Controller
      *
      * @param User $user
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(User $user, Request $request)
     {
@@ -106,7 +128,7 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param User $user
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(User $user)
     {
