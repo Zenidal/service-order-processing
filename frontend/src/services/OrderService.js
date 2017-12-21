@@ -31,6 +31,18 @@ export default class OrderService {
             .catch(errorCalback);
     }
 
+    newOrder(order, successCalback, errorCalback) {
+        this.api.axiosObject.post(API_ORDER_PATH + '/create-from-address-company', {
+            description: order.description,
+            exact_address: order.exactAddress,
+            company_id: order.companyId,
+            locality_id: order.localityId,
+            address_id: order.addressId
+        })
+            .then(successCalback)
+            .catch(errorCalback);
+    }
+
     editOrder(order, successCalback, errorCalback) {
         this.api.axiosObject.put(API_ORDER_PATH + '/' + order.id + '/edit-from-address-company', {
             description: order.description,

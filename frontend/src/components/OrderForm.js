@@ -11,6 +11,12 @@ export default class OrderForm extends Component {
                     </Header>
                     <Form size='large' error>
                         <Segment stacked>
+                            {this.props.order.error.length > 0 &&
+                            <Message
+                                error
+                                content={this.props.order.error}
+                            />
+                            }
                             <Dropdown
                                 className='field'
                                 fluid
@@ -23,12 +29,6 @@ export default class OrderForm extends Component {
                                 selection
                                 options={this.props.companies}
                             />
-                            {this.props.order.companyNameError.length > 0 &&
-                            <Message
-                                error
-                                content={this.props.order.companyNameError}
-                            />
-                            }
                             <Dropdown
                                 className='field'
                                 fluid
@@ -41,12 +41,6 @@ export default class OrderForm extends Component {
                                 selection
                                 options={this.props.localities}
                             />
-                            {this.props.order.localityNameError.length > 0 &&
-                            <Message
-                                error
-                                content={this.props.order.localityNameError}
-                            />
-                            }
                             <Dropdown
                                 className='field'
                                 fluid
@@ -60,12 +54,6 @@ export default class OrderForm extends Component {
                                 selection
                                 options={this.props.companyAddresses}
                             />
-                            {this.props.order.exactAddressError.length > 0 &&
-                            <Message
-                                error
-                                content={this.props.order.exactAddressError}
-                            />
-                            }
                             <Form.Input
                                 fluid
                                 placeholder='Description'
@@ -73,12 +61,6 @@ export default class OrderForm extends Component {
                                 value={this.props.order.description}
                                 onChange={this.props.handleChange}
                             />
-                            {this.props.order.descriptionError.length > 0 &&
-                            <Message
-                                error
-                                content={this.props.order.descriptionError}
-                            />
-                            }
 
                             <Button color='teal' onClick={this.props.handleSubmit} fluid
                                     size='large'>{this.props.actionText}</Button>

@@ -6,23 +6,37 @@ import LocalityService from "../../services/LocalityService";
 import OrderForm from '../../components/OrderForm';
 import {ORDER_PATH} from "../../constants/RoutePaths";
 
-export default class EditOrder extends Component {
+export default class NewOrder extends Component {
     constructor(props) {
         super(props);
 
         this.orderService = new OrderService();
         this.companyService = new CompanyService();
         this.localityService = new LocalityService();
-        this.actionText = 'Edit';
+        this.actionText = 'Create';
         this.searchLimit = 10;
 
         this.state = {
             orderId: props.match.params.number,
-            order: {},
+            order: {
+                error: '',
+                id: '',
+                companyId: '',
+                companyName: '',
+                localityId: '',
+                localityName: '',
+                exactAddress: '',
+                addressId: '',
+                description: '',
+            },
             companies: [],
             localities: [],
             companyAddresses: [],
-            newCompanyAddress: {}
+            newCompanyAddress: {
+                key: 0,
+                text: '',
+                value: 0
+            }
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -30,52 +44,6 @@ export default class EditOrder extends Component {
         this.searchLocalities = this.searchLocalities.bind(this);
         this.searchCompanyBranches = this.searchCompanyBranches.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    getOrder() {
-        this.orderService.getOrder(this.state.orderId, function (response) {
-            this.setState(() => {
-                return {
-                    order: {
-                        error: '',
-                        id: response.data.order.id,
-                        companyId: response.data.order.company_branch.company.id,
-                        companyName: response.data.order.company_branch.company.name,
-                        localityId: response.data.order.company_branch.address.locality.id,
-                        localityName: response.data.order.company_branch.address.locality.name,
-                        exactAddress: response.data.order.company_branch.address.exact_address,
-                        addressId: response.data.order.company_branch.address.id,
-                        description: response.data.order.description,
-                    },
-                    companies: [
-                        {
-                            key: response.data.order.company_branch.company.id,
-                            text: response.data.order.company_branch.company.name,
-                            value: response.data.order.company_branch.company.id,
-                        }
-                    ],
-                    localities: [
-                        {
-                            key: response.data.order.company_branch.address.locality.id,
-                            text: response.data.order.company_branch.address.locality.name,
-                            value: response.data.order.company_branch.address.locality.id,
-                        }
-                    ],
-                    companyAddresses: [
-                        {
-                            key: response.data.order.company_branch.address.id,
-                            text: response.data.order.company_branch.address.exact_address,
-                            value: response.data.order.company_branch.address.id,
-                        }
-                    ],
-                    newCompanyAddress: {
-                        key: 0,
-                        text: '',
-                        value: 0
-                    }
-                }
-            })
-        }.bind(this));
     }
 
     searchCompanies(event, {searchQuery}) {
@@ -174,8 +142,8 @@ export default class EditOrder extends Component {
         });
     }
 
-    editOrder() {
-        this.orderService.editOrder(
+    newOrder() {
+        this.orderService.newOrder(
             this.state.order,
             function (response) {
                 this.props.history.push(ORDER_PATH);
@@ -193,7 +161,7 @@ export default class EditOrder extends Component {
     }
 
     handleSubmit() {
-        this.editOrder();
+        this.newOrder();
     }
 
     handleChange(event, {name, value, options}) {
@@ -207,6 +175,7 @@ export default class EditOrder extends Component {
                     if (options[index].value === value)
                         order.exactAddress = options[index].text;
                 }
+                console.log(order);
                 return {order: order};
             });
         }
@@ -217,31 +186,21 @@ export default class EditOrder extends Component {
         });
     }
 
-    componentWillMount() {
-        this.getOrder();
-    }
-
     render() {
-        let isLoaded = this.state.order.id && this.state.companies && this.state.localities && this.state.companyAddresses;
-
-        let content = isLoaded ?
-            <OrderForm
-                actionText={this.actionText}
-                companies={this.state.companies}
-                localities={this.state.localities}
-                companyAddresses={this.state.companyAddresses.concat([this.state.newCompanyAddress])}
-                order={this.state.order}
-                handleChange={this.handleChange}
-                handleSubmit={this.handleSubmit}
-                searchCompanies={this.searchCompanies}
-                searchLocalities={this.searchLocalities}
-                searchCompanyBranches={this.searchCompanyBranches}
-            /> :
-            'Loading';
-
         return (
             <Container>
-                {content}
+                <OrderForm
+                    actionText={this.actionText}
+                    companies={this.state.companies}
+                    localities={this.state.localities}
+                    companyAddresses={this.state.companyAddresses.concat([this.state.newCompanyAddress])}
+                    order={this.state.order}
+                    handleChange={this.handleChange}
+                    handleSubmit={this.handleSubmit}
+                    searchCompanies={this.searchCompanies}
+                    searchLocalities={this.searchLocalities}
+                    searchCompanyBranches={this.searchCompanyBranches}
+                />
             </Container>
         );
     }

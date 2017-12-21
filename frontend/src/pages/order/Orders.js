@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Table, Icon, Button, Menu, Container} from 'semantic-ui-react'
+import {Table, Menu, Container} from 'semantic-ui-react'
 import OrderService from "../../services/OrderService";
 import {Link} from 'react-router-dom';
 import {ORDER_PATH} from "../../constants/RoutePaths";
@@ -57,7 +57,7 @@ export default class Orders extends Component {
                         <Table.Cell>{order.ownerName}</Table.Cell>
                         <Table.Cell>
                             <Menu>
-                                <Menu.Item as={Link} to={ORDER_PATH + '/' + order.id}>Show</Menu.Item>
+                                <Menu.Item as={Link} to={ORDER_PATH + '/' + order.id + '/show'}>Show</Menu.Item>
                                 <Menu.Item as={Link} to={ORDER_PATH + '/' + order.id + '/edit'}>Edit</Menu.Item>
                             </Menu>
                         </Table.Cell>
@@ -92,9 +92,9 @@ export default class Orders extends Component {
                     <Table.Footer>
                         <Table.Row>
                             <Table.HeaderCell>
-                                <Button icon labelPosition='left' primary size='small'>
-                                    <Icon name='user'/> Add Order
-                                </Button>
+                                <Menu>
+                                    <Menu.Item as={Link} to={ORDER_PATH + '/new'}>New order</Menu.Item>
+                                </Menu>
                             </Table.HeaderCell>
                         </Table.Row>
                     </Table.Footer>
