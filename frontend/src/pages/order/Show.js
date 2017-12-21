@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import {Item, Container} from 'semantic-ui-react'
 import OrderService from "../../services/OrderService";
 import {Link} from 'react-router-dom';
-import {ORDER_PATH} from "../../constants/RoutePaths";
+import {makeUrl, ORDER_EDIT_PATH, ORDER_PATH} from "../../constants/RoutePaths";
+import {mapOrder} from "../../constants/OrderHelper";
 
 export default class ShowOrder extends Component {
     constructor(props) {
@@ -19,19 +20,7 @@ export default class ShowOrder extends Component {
     getOrder() {
         this.orderService.getOrder(this.state.orderId, function (response) {
             this.setState(()=> {
-                let order = {
-                    id: response.data.order.id,
-                    description: response.data.order.description,
-                    status: response.data.order.status,
-                    companyName: response.data.order.company_branch.company.name,
-                    countryName: response.data.order.company_branch.address.locality.country.name,
-                    localityName: response.data.order.company_branch.address.locality.name,
-                    exactAddress: response.data.order.company_branch.address.exact_address,
-                    createdAt: response.data.order.created_at,
-                    engineerName: response.data.order.engineer && response.data.order.engineer.name ? response.data.order.engineer.name : '',
-                    ownerName: response.data.order.owner.name
-                };
-                return {order: order};
+                return {order: mapOrder(response.data.order)};
             });
         }.bind(this));
     }
@@ -70,7 +59,7 @@ export default class ShowOrder extends Component {
                         <Link to={ORDER_PATH}>Orders</Link>
                     </Item>
                     <Item>
-                        <Link to={ORDER_PATH + '/' + this.state.orderId + '/edit'}>Edit</Link>
+                        <Link to={makeUrl(ORDER_EDIT_PATH, {number: this.state.orderId})}>Edit</Link>
                     </Item>
                 </Item.Group>
             </Container>

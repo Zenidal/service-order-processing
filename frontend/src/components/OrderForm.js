@@ -11,10 +11,10 @@ export default class OrderForm extends Component {
                     </Header>
                     <Form size='large' error>
                         <Segment stacked>
-                            {this.props.order.error.length > 0 &&
+                            {this.props.error.length > 0 &&
                             <Message
                                 error
-                                content={this.props.order.error}
+                                content={this.props.error}
                             />
                             }
                             <Dropdown

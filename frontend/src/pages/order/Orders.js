@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import {Table, Menu, Container} from 'semantic-ui-react'
 import OrderService from "../../services/OrderService";
 import {Link} from 'react-router-dom';
-import {ORDER_PATH} from "../../constants/RoutePaths";
+import {
+    makeUrl, ORDER_EDIT_PATH, ORDER_NEW_PATH, ORDER_PATH, ORDER_SHOW_PATH,
+    ORDER_STATUS_MANAGEMENT_PATH
+} from "../../constants/RoutePaths";
 
 export default class Orders extends Component {
     constructor(props) {
@@ -56,9 +59,11 @@ export default class Orders extends Component {
                         <Table.Cell>{order.engineerName}</Table.Cell>
                         <Table.Cell>{order.ownerName}</Table.Cell>
                         <Table.Cell>
-                            <Menu>
-                                <Menu.Item as={Link} to={ORDER_PATH + '/' + order.id + '/show'}>Show</Menu.Item>
-                                <Menu.Item as={Link} to={ORDER_PATH + '/' + order.id + '/edit'}>Edit</Menu.Item>
+                            <Menu vertical>
+                                <Menu.Item as={Link} to={makeUrl(ORDER_SHOW_PATH, {number: order.id})}>Show</Menu.Item>
+                                <Menu.Item as={Link} to={makeUrl(ORDER_EDIT_PATH, {number: order.id})}>Edit</Menu.Item>
+                                <Menu.Item as={Link} to={makeUrl(ORDER_STATUS_MANAGEMENT_PATH, {number: order.id})}>Status
+                                    management</Menu.Item>
                             </Menu>
                         </Table.Cell>
                     </Table.Row>
@@ -91,10 +96,8 @@ export default class Orders extends Component {
 
                     <Table.Footer>
                         <Table.Row>
-                            <Table.HeaderCell>
-                                <Menu>
-                                    <Menu.Item as={Link} to={ORDER_PATH + '/new'}>New order</Menu.Item>
-                                </Menu>
+                            <Table.HeaderCell colSpan={11}>
+                                <Link to={ORDER_NEW_PATH}>New order</Link>
                             </Table.HeaderCell>
                         </Table.Row>
                     </Table.Footer>

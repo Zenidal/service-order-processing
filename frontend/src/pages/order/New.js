@@ -19,7 +19,6 @@ export default class NewOrder extends Component {
         this.state = {
             orderId: props.match.params.number,
             order: {
-                error: '',
                 id: '',
                 companyId: '',
                 companyName: '',
@@ -29,6 +28,7 @@ export default class NewOrder extends Component {
                 addressId: '',
                 description: '',
             },
+            error: '',
             companies: [],
             localities: [],
             companyAddresses: [],
@@ -127,19 +127,11 @@ export default class NewOrder extends Component {
     setApiValidationErrors(errors) {
         this.resetErrors();
 
-        this.setState((prevState, props) => {
-            let order = prevState.order;
-            order.error = errors.join(' | ');
-            return {order: order};
-        });
+        this.setState({error: errors.join(' | ')});
     }
 
     resetErrors() {
-        this.setState((prevState, props) => {
-            let order = prevState.order;
-            order.error = '';
-            return {order: order};
-        });
+        this.setState({error: ''});
     }
 
     newOrder() {
@@ -195,6 +187,7 @@ export default class NewOrder extends Component {
                     localities={this.state.localities}
                     companyAddresses={this.state.companyAddresses.concat([this.state.newCompanyAddress])}
                     order={this.state.order}
+                    error={this.state.error}
                     handleChange={this.handleChange}
                     handleSubmit={this.handleSubmit}
                     searchCompanies={this.searchCompanies}

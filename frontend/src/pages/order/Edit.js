@@ -5,6 +5,7 @@ import CompanyService from "../../services/CompanyService";
 import LocalityService from "../../services/LocalityService";
 import OrderForm from '../../components/OrderForm';
 import {ORDER_PATH} from "../../constants/RoutePaths";
+import {mapOrder} from "../../constants/OrderHelper";
 
 export default class EditOrder extends Component {
     constructor(props) {
@@ -22,7 +23,8 @@ export default class EditOrder extends Component {
             companies: [],
             localities: [],
             companyAddresses: [],
-            newCompanyAddress: {}
+            newCompanyAddress: {},
+            error: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -36,17 +38,7 @@ export default class EditOrder extends Component {
         this.orderService.getOrder(this.state.orderId, function (response) {
             this.setState(() => {
                 return {
-                    order: {
-                        error: '',
-                        id: response.data.order.id,
-                        companyId: response.data.order.company_branch.company.id,
-                        companyName: response.data.order.company_branch.company.name,
-                        localityId: response.data.order.company_branch.address.locality.id,
-                        localityName: response.data.order.company_branch.address.locality.name,
-                        exactAddress: response.data.order.company_branch.address.exact_address,
-                        addressId: response.data.order.company_branch.address.id,
-                        description: response.data.order.description,
-                    },
+                    order: mapOrder(response.data.order),
                     companies: [
                         {
                             key: response.data.order.company_branch.company.id,
@@ -159,19 +151,11 @@ export default class EditOrder extends Component {
     setApiValidationErrors(errors) {
         this.resetErrors();
 
-        this.setState((prevState, props) => {
-            let order = prevState.order;
-            order.error = errors.join(' | ');
-            return {order: order};
-        });
+        this.setState({error: errors.join(' | ')});
     }
 
     resetErrors() {
-        this.setState((prevState, props) => {
-            let order = prevState.order;
-            order.error = '';
-            return {order: order};
-        });
+        this.setState({error: ''});
     }
 
     editOrder() {
@@ -231,6 +215,7 @@ export default class EditOrder extends Component {
                 localities={this.state.localities}
                 companyAddresses={this.state.companyAddresses.concat([this.state.newCompanyAddress])}
                 order={this.state.order}
+                error={this.state.error}
                 handleChange={this.handleChange}
                 handleSubmit={this.handleSubmit}
                 searchCompanies={this.searchCompanies}
