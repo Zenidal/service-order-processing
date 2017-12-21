@@ -3,6 +3,7 @@ import {Switch} from 'react-router';
 import Home from '../pages/Home';
 import Orders from '../pages/order/Orders';
 import ShowOrder from '../pages/order/Show';
+import EditOrder from '../pages/order/Edit';
 import Register from '../pages/Register';
 import Login from '../pages/Login';
 import UserService from "../services/UserService";
@@ -20,7 +21,8 @@ export default class Routes extends Component {
             <Switch>
                 <PrivateRoute path={HOME_PATH} component={Home}/>
                 <PrivateRoute exact path={ORDER_PATH} component={Orders}/>
-                <PrivateRoute path={ORDER_PATH + '/:number'} component={ShowOrder}/>
+                <PrivateRoute exact path={ORDER_PATH + '/:number'} component={ShowOrder}/>
+                <PrivateRoute path={ORDER_PATH + '/:number/edit'} component={EditOrder}/>
                 <GuestRoute path={REGISTER_PATH} component={Register}/>
                 <GuestRoute path={LOGIN_PATH} component={Login}/>
             </Switch>
