@@ -63,6 +63,19 @@ class OrderPolicy
     /**
      * @param User $user
      * @param Order $model
+     * @return bool
+     */
+    public function showStatusHistories(User $user, Order $model)
+    {
+        return
+            $user->role->isManager() ||
+            ($user->role->isEngineer() && $model->engineer_id === $user->id) ||
+            ($user->role->isCustomer() && $model->owner_id === $user->id);
+    }
+
+    /**
+     * @param User $user
+     * @param Order $model
      * @return mixed
      */
     public function assign(User $user, Order $model)

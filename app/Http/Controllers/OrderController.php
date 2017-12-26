@@ -254,6 +254,17 @@ class OrderController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @param Order $order
+     * @return Response
+     */
+    public function showStatusHistories(Order $order)
+    {
+        return new Response(['error' => '', 'orderStatusHistories' => $order->orderStatusHistories]);
+    }
+
+    /**
      * @param  Order $order
      * @param Request $request
      * @return Response
