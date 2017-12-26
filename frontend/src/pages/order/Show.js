@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Item, Container} from 'semantic-ui-react'
+import {Item, Container, Dimmer, Loader} from 'semantic-ui-react'
 import OrderService from "../../services/OrderService";
 import {Link} from 'react-router-dom';
 import {makeUrl, ORDER_EDIT_PATH, ORDER_PATH} from "../../constants/RoutePaths";
@@ -30,7 +30,11 @@ export default class ShowOrder extends Component {
     }
 
     render() {
-        let content = this.state.order.id ? order({order: this.state.order}) : <Item.Content>'Loading'</Item.Content>;
+        let content = this.state.order.id ? order({order: this.state.order}) : (
+            <Dimmer active inverted>
+                <Loader size='small'>Loading</Loader>
+            </Dimmer>
+        );
 
         return (
             <Container>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Step} from 'semantic-ui-react';
+import {Step, Dimmer, Loader} from 'semantic-ui-react';
 import AssignForm from "./AssignForm";
 import StatusForm from "./StatusForm";
 
@@ -20,7 +20,14 @@ export default class OrderStatuses extends Component {
 
     componentWillReceiveProps(newProps) {
         let contentForm;
-        if (!newProps.order) return;
+        if (!newProps.order) {
+            contentForm = (
+                <Dimmer active inverted>
+                    <Loader size='small'>Loading</Loader>
+                </Dimmer>
+            );
+            return this.setState({contentForm: contentForm});
+        }
         switch (parseInt(newProps.order.status)) {
             case 1: {
                 contentForm = <AssignForm

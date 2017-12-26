@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Container} from 'semantic-ui-react'
+import {Container, Dimmer, Loader} from 'semantic-ui-react'
 import OrderService from "../../services/OrderService";
 import CompanyService from "../../services/CompanyService";
 import LocalityService from "../../services/LocalityService";
@@ -222,7 +222,9 @@ export default class EditOrder extends Component {
                 searchLocalities={this.searchLocalities}
                 searchCompanyBranches={this.searchCompanyBranches}
             /> :
-            'Loading';
+            <Dimmer active inverted>
+                <Loader size='small'>Loading</Loader>
+            </Dimmer>;
 
         return (
             <Container>

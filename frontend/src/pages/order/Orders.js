@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Table, Menu, Container} from 'semantic-ui-react'
+import {Table, Menu, Container, Dimmer, Loader} from 'semantic-ui-react'
 import OrderService from "../../services/OrderService";
 import {Link} from 'react-router-dom';
 import {
@@ -69,7 +69,11 @@ export default class Orders extends Component {
                     </Table.Row>
                 );
             })
-            : [];
+            : (
+                <Dimmer active inverted>
+                    <Loader size='small'>Loading</Loader>
+                </Dimmer>
+            );
 
         return (
             <Container>
