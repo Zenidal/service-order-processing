@@ -19,19 +19,19 @@ export default class OrderService {
             .catch(errorCallback);
     }
 
-    deleteOrder(id, successCalback, errorCalback) {
+    deleteOrder(id, successCallback, errorCallback) {
         this.api.axiosObject.delete(API_ORDER_PATH + '/' + id)
-            .then(successCalback)
-            .catch(errorCalback);
+            .then(successCallback)
+            .catch(errorCallback);
     }
 
-    getOrder(id, successCalback, errorCalback) {
+    getOrder(id, successCallback, errorCallback) {
         this.api.axiosObject.get(API_ORDER_PATH + '/' + id)
-            .then(successCalback)
-            .catch(errorCalback);
+            .then(successCallback)
+            .catch(errorCallback);
     }
 
-    newOrder(order, successCalback, errorCalback) {
+    newOrder(order, successCallback, errorCallback) {
         this.api.axiosObject.post(API_ORDER_PATH + '/create-from-address-company', {
             description: order.description,
             exact_address: order.exactAddress,
@@ -39,11 +39,11 @@ export default class OrderService {
             locality_id: order.localityId,
             address_id: order.addressId
         })
-            .then(successCalback)
-            .catch(errorCalback);
+            .then(successCallback)
+            .catch(errorCallback);
     }
 
-    editOrder(order, successCalback, errorCalback) {
+    editOrder(order, successCallback, errorCallback) {
         this.api.axiosObject.put(API_ORDER_PATH + '/' + order.id + '/edit-from-address-company', {
             description: order.description,
             exact_address: order.exactAddress,
@@ -51,7 +51,60 @@ export default class OrderService {
             locality_id: order.localityId,
             address_id: order.addressId
         })
-            .then(successCalback)
-            .catch(errorCalback);
+            .then(successCallback)
+            .catch(errorCallback);
+    }
+
+    assign(order, engineerId, comment, successCallback, errorCallback) {
+        let params = {
+            engineer_id: engineerId
+        };
+        if (comment) {
+            params.comment = comment;
+        }
+
+        this.api.axiosObject.post(API_ORDER_PATH + '/' + order.id + '/assign', params)
+            .then(successCallback)
+            .catch(errorCallback);
+    }
+
+    startProgress(order, comment, successCallback, errorCallback) {
+        let params = {};
+        if (comment) {
+            params.comment = comment;
+        }
+        this.api.axiosObject.post(API_ORDER_PATH + '/' + order.id + '/start-progress', params)
+            .then(successCallback)
+            .catch(errorCallback);
+    }
+
+    resolve(order, comment, successCallback, errorCallback) {
+        let params = {};
+        if (comment) {
+            params.comment = comment;
+        }
+        this.api.axiosObject.post(API_ORDER_PATH + '/' + order.id + '/resolve', params)
+            .then(successCallback)
+            .catch(errorCallback);
+    }
+
+    close(order, comment, successCallback, errorCallback) {
+        let params = {};
+        if (comment) {
+            params.comment = comment;
+        }
+        this.api.axiosObject.post(API_ORDER_PATH + '/' + order.id + '/close', params)
+            .then(successCallback)
+            .catch(errorCallback);
+    }
+
+    reopen(order, comment, successCallback, errorCallback) {
+        let params = {};
+        if (comment) {
+            params.comment = comment;
+        }
+        this.api.axiosObject.post(API_ORDER_PATH + '/' + order.id + '/reopen', params)
+            .then(successCallback)
+            .catch(errorCallback);
     }
 }

@@ -178,7 +178,7 @@ class OrderController extends Controller
             $address = new Address();
             $address->exact_address = $request->exact_address;
             $locality->addresses()->save($address);
-        } else{
+        } else {
             $address->exact_address = $request->exact_address;
             $address->save();
         }
@@ -262,7 +262,7 @@ class OrderController extends Controller
     {
         $engineer = User::where('id', $request->engineer_id)->first();
         if (!$engineer || !$engineer->role->isEngineer()) {
-            return new Response(['error' => 'Provide valid engineer id.', 'order' => $order]);
+            return new Response(['error' => 'Provide valid engineer id.', 'order' => $order], Response::HTTP_BAD_REQUEST);
         }
         try {
             $orderHistory = $this->orderStateMachine->resolveStateChange($order, OrderStateMachine::ASSIGN_OPERATION);
@@ -273,7 +273,7 @@ class OrderController extends Controller
             }
             return new Response(['error' => '', 'order' => $order]);
         } catch (OrderStateException $exception) {
-            return new Response(['error' => 'You cannot assign this order.', 'order' => $order], 400);
+            return new Response(['error' => 'You cannot assign this order.', 'order' => $order], Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -292,7 +292,7 @@ class OrderController extends Controller
             }
             return new Response(['error' => '', 'order' => $order]);
         } catch (OrderStateException $exception) {
-            return new Response(['error' => 'You cannot start this order.', 'order' => $order], 400);
+            return new Response(['error' => 'You cannot start this order.', 'order' => $order], Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -311,7 +311,7 @@ class OrderController extends Controller
             }
             return new Response(['error' => '', 'order' => $order]);
         } catch (OrderStateException $exception) {
-            return new Response(['error' => 'You cannot resolve this order.', 'order' => $order], 400);
+            return new Response(['error' => 'You cannot resolve this order.', 'order' => $order], Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -330,7 +330,7 @@ class OrderController extends Controller
             }
             return new Response(['error' => '', 'order' => $order]);
         } catch (OrderStateException $exception) {
-            return new Response(['error' => 'You cannot close this order.', 'order' => $order], 400);
+            return new Response(['error' => 'You cannot close this order.', 'order' => $order], Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -342,7 +342,7 @@ class OrderController extends Controller
     public function reopen(Order $order, Request $request)
     {
         if (!$request->comment) {
-            return new Response(['error' => 'Provide cause of reopening.', 'order' => $order]);
+            return new Response(['error' => 'Provide cause of reopening.', 'order' => $order], Response::HTTP_BAD_REQUEST);
         }
         try {
             $orderHistory = $this->orderStateMachine->resolveStateChange($order, OrderStateMachine::REOPEN_OPERATION);
@@ -352,7 +352,7 @@ class OrderController extends Controller
             }
             return new Response(['error' => '', 'order' => $order]);
         } catch (OrderStateException $exception) {
-            return new Response(['error' => 'You cannot resolve this order.', 'order' => $order], 400);
+            return new Response(['error' => 'You cannot resolve this order.', 'order' => $order], Response::HTTP_BAD_REQUEST);
         }
     }
 }
