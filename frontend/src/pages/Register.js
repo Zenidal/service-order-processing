@@ -5,6 +5,7 @@ import AxiosApiInstance from '../services/AxiosApiInstance';
 import UserService from '../services/UserService';
 import RoleService from '../services/RoleService';
 import {LOGIN_PATH} from "../constants/RoutePaths";
+import Notifications from "../components/Notifications";
 
 export default class Register extends Component {
     constructor(props) {
@@ -109,7 +110,7 @@ export default class Register extends Component {
                         this.setApiValidationErrors(error.response.data.errors);
                     }
                 } else {
-                    console.log('Error', error.message);
+                    Notifications.addError(error.message);
                 }
             }.bind(this)
         );

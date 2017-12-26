@@ -5,6 +5,7 @@ import CompanyService from "../../services/CompanyService";
 import LocalityService from "../../services/LocalityService";
 import OrderForm from '../../components/OrderForm';
 import {ORDER_PATH} from "../../constants/RoutePaths";
+import Notifications from "../../components/Notifications";
 
 export default class NewOrder extends Component {
     constructor(props) {
@@ -63,7 +64,7 @@ export default class NewOrder extends Component {
                 });
                 this.resetCompanyAddresses();
             }.bind(this), function (error) {
-                console.log('Error: ', error.message);
+                Notifications.addError(error.message);
             }
         );
     }
@@ -85,7 +86,7 @@ export default class NewOrder extends Component {
                 });
                 this.resetCompanyAddresses();
             }.bind(this), function (error) {
-                console.log('Error: ', error.message);
+                Notifications.addError(error.message);
             }
         );
     }
@@ -119,7 +120,7 @@ export default class NewOrder extends Component {
                     return {companyAddresses: companyAddresses, newCompanyAddress: newCompanyAddress};
                 });
             }.bind(this), function (error) {
-                console.log('Error: ', error.message);
+                Notifications.addError(error.message);
             }
         );
     }
@@ -146,7 +147,7 @@ export default class NewOrder extends Component {
                         this.setApiValidationErrors(error.response.data.error);
                     }
                 } else {
-                    console.log('Error', error.message);
+                    Notifications.addError(error.message);
                 }
             }.bind(this)
         );
@@ -167,7 +168,6 @@ export default class NewOrder extends Component {
                     if (options[index].value === value)
                         order.exactAddress = options[index].text;
                 }
-                console.log(order);
                 return {order: order};
             });
         }

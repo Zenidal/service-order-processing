@@ -1,0 +1,5 @@
+.messages-container {
+    position: fixed;
+    z-index: 1000;
+    right: 0;
+}

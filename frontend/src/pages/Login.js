@@ -3,9 +3,10 @@ import {Button, Form, Grid, Header, Message, Segment} from 'semantic-ui-react'
 import {Link} from 'react-router-dom';
 import UserService from '../services/UserService';
 import {HOME_PATH, REGISTER_PATH} from "../constants/RoutePaths";
+import Notifications from "../components/Notifications";
 
 export default class Login extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.userService = new UserService();
@@ -77,7 +78,7 @@ export default class Login extends Component {
                         this.setApiValidationErrors(error.response.data.errors);
                     }
                 } else {
-                    console.log('Error', error.message);
+                    Notifications.addError(error.message);
                 }
             }.bind(this)
         );

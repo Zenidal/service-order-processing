@@ -6,6 +6,7 @@ import LocalityService from "../../services/LocalityService";
 import OrderForm from '../../components/OrderForm';
 import {ORDER_PATH} from "../../constants/RoutePaths";
 import {mapOrder} from "../../constants/OrderHelper";
+import Notifications from "../../components/Notifications";
 
 export default class EditOrder extends Component {
     constructor(props) {
@@ -87,7 +88,7 @@ export default class EditOrder extends Component {
                 });
                 this.resetCompanyAddresses();
             }.bind(this), function (error) {
-                console.log('Error: ', error.message);
+                Notifications.addError(error.message);
             }
         );
     }
@@ -109,7 +110,7 @@ export default class EditOrder extends Component {
                 });
                 this.resetCompanyAddresses();
             }.bind(this), function (error) {
-                console.log('Error: ', error.message);
+                Notifications.addError(error.message);
             }
         );
     }
@@ -143,7 +144,7 @@ export default class EditOrder extends Component {
                     return {companyAddresses: companyAddresses, newCompanyAddress: newCompanyAddress};
                 });
             }.bind(this), function (error) {
-                console.log('Error: ', error.message);
+                Notifications.addError(error.message);
             }
         );
     }
@@ -170,7 +171,7 @@ export default class EditOrder extends Component {
                         this.setApiValidationErrors(error.response.data.error);
                     }
                 } else {
-                    console.log('Error', error.message);
+                    Notifications.addError(error.message);
                 }
             }.bind(this)
         );

@@ -5,6 +5,7 @@ import UserService from "../services/UserService";
 import {HOME_PATH, REGISTER_PATH, LOGIN_PATH, ORDER_PATH} from '../constants/RoutePaths';
 import {withRouter} from 'react-router';
 import HeaderUserInfo from "./HeaderUserInfo";
+import Notifications from "./Notifications";
 
 class CustomHeader extends Component {
     constructor(props) {
@@ -24,7 +25,7 @@ class CustomHeader extends Component {
             }.bind(this),
             function (error) {
                 this.props.history.push(LOGIN_PATH);
-                console.log('Error: ', error.message);
+                Notifications.addError(error.message);
             }.bind(this)
         );
     }
