@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Container} from 'semantic-ui-react'
 import OrderService from "../../services/OrderService";
-import {mapOrder, order} from "../../constants/OrderHelper";
+import {mapOrder, orderView} from "../../constants/OrderHelper";
 import OrderStatuses from '../../components/OrderStatuses';
 
 export default class StatusManagementOrder extends Component {
@@ -52,7 +52,7 @@ export default class StatusManagementOrder extends Component {
             }.bind(this),
             function (error) {
                 callback(error.response.data.error);
-            }.bind(this)
+            }
         );
     }
 
@@ -66,7 +66,7 @@ export default class StatusManagementOrder extends Component {
             }.bind(this),
             function (error) {
                 callback(error.response.data.error);
-            }.bind(this)
+            }
         );
     }
 
@@ -80,7 +80,7 @@ export default class StatusManagementOrder extends Component {
             }.bind(this),
             function (error) {
                 callback(error.response.data.error);
-            }.bind(this)
+            }
         );
     }
 
@@ -94,7 +94,7 @@ export default class StatusManagementOrder extends Component {
             }.bind(this),
             function (error) {
                 callback(error.response.data.error);
-            }.bind(this)
+            }
         );
     }
 
@@ -108,7 +108,7 @@ export default class StatusManagementOrder extends Component {
             }.bind(this),
             function (error) {
                 callback(error.response.data.error);
-            }.bind(this)
+            }
         );
     }
 
@@ -129,7 +129,7 @@ export default class StatusManagementOrder extends Component {
                     closeOrder={this.closeOrder}
                     reopenOrder={this.reopenOrder}
                 />
-                {order({order: this.state.order})}
+                {orderView({order: this.state.order})}
             </Container>
         );
     }

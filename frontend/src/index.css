@@ -3,3 +3,9 @@
     z-index: 1000;
     right: 0;
 }
+
+.fixed-grid-container{
+    overflow-y: scroll;
+    max-height: 500px;
+    padding-top: 5px;
+}

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Dropdown, Button, Message, Input} from 'semantic-ui-react';
+import {Form, Dropdown, Button, Message} from 'semantic-ui-react';
 import UserService from "../services/UserService";
 
 export default class AssignForm extends Component {

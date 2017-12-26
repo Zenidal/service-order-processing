@@ -107,4 +107,10 @@ export default class OrderService {
             .then(successCallback)
             .catch(errorCallback);
     }
+
+    getStatusHistories(orderId, successCallback, errorCallback) {
+        this.api.axiosObject.get(API_ORDER_PATH + '/' + orderId + '/order-status-histories')
+            .then(successCallback)
+            .catch(errorCallback);
+    }
 }

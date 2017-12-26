@@ -3,7 +3,7 @@ import {Table, Menu, Container, Dimmer, Loader} from 'semantic-ui-react'
 import OrderService from "../../services/OrderService";
 import {Link} from 'react-router-dom';
 import {
-    makeUrl, ORDER_EDIT_PATH, ORDER_NEW_PATH, ORDER_PATH, ORDER_SHOW_PATH,
+    makeUrl, ORDER_EDIT_PATH, ORDER_NEW_PATH, ORDER_SHOW_PATH,
     ORDER_STATUS_MANAGEMENT_PATH
 } from "../../constants/RoutePaths";
 
@@ -69,14 +69,15 @@ export default class Orders extends Component {
                     </Table.Row>
                 );
             })
-            : (
-                <Dimmer active inverted>
-                    <Loader size='small'>Loading</Loader>
-                </Dimmer>
-            );
+            : <Table.Row/>;
 
         return (
             <Container>
+                {!isLoaded &&
+                <Dimmer active inverted>
+                    <Loader size='small'>Loading</Loader>
+                </Dimmer>
+                }
                 <Table compact celled>
                     <Table.Header>
                         <Table.Row>

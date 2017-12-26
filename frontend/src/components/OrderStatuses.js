@@ -28,7 +28,7 @@ export default class OrderStatuses extends Component {
             );
             return this.setState({contentForm: contentForm});
         }
-        switch (parseInt(newProps.order.status)) {
+        switch (parseInt(newProps.order.status, 10)) {
             case 1: {
                 contentForm = <AssignForm
                     searchEngineers={this.props.searchEngineers}
@@ -94,7 +94,7 @@ export default class OrderStatuses extends Component {
     render() {
         let steps = this.statuses.map(function (step) {
             return (
-                <Step active={step.value === (parseInt(this.props.order.status))} key={step.value}>
+                <Step active={step.value === (parseInt(this.props.order.status, 10))} key={step.value}>
                     <Step.Content>
                         <Step.Title>{step.text}</Step.Title>
                         <Step.Description>{step.description}</Step.Description>

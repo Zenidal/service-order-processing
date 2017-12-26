@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Container, Message} from 'semantic-ui-react';
+import {Message} from 'semantic-ui-react';
 
 let instance = null;
 
