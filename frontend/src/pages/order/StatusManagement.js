@@ -112,7 +112,7 @@ export default class StatusManagementOrder extends Component {
         );
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getOrder();
     }
 

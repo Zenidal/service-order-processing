@@ -202,14 +202,12 @@ export default class EditOrder extends Component {
         });
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getOrder();
     }
 
     render() {
-        let isLoaded = this.state.order.id && this.state.companies && this.state.localities && this.state.companyAddresses;
-
-        let content = isLoaded ?
+        let content =
             <OrderForm
                 actionText={this.actionText}
                 companies={this.state.companies}
@@ -222,10 +220,7 @@ export default class EditOrder extends Component {
                 searchCompanies={this.searchCompanies}
                 searchLocalities={this.searchLocalities}
                 searchCompanyBranches={this.searchCompanyBranches}
-            /> :
-            <Dimmer active inverted>
-                <Loader size='small'>Loading</Loader>
-            </Dimmer>;
+            />;
 
         return (
             <Container>

@@ -27,7 +27,7 @@ class UserService {
     }
 
     register(registeredUser, successCallback, errorCallback) {
-        this.api.axiosObject.post(API_REGISTER_PATH, {
+        return this.api.axiosObject.post(API_REGISTER_PATH, {
             name: registeredUser.name,
             email: registeredUser.email,
             password: registeredUser.password,
@@ -39,7 +39,7 @@ class UserService {
     }
 
     login(loginUser, successCallback, errorCallback) {
-        this.api.axiosObject.post(API_LOGIN_PATH, {
+        return this.api.axiosObject.post(API_LOGIN_PATH, {
             email: loginUser.email,
             password: loginUser.password
         })
@@ -56,13 +56,13 @@ class UserService {
     }
 
     searchEngineers(successCallback, errorCallback) {
-        this.api.axiosObject.get(API_USER_PATH + '/engineers')
+        return this.api.axiosObject.get(API_USER_PATH + '/engineers')
             .then(successCallback)
             .catch(errorCallback);
     }
 
     logout(successCallback, errorCallback) {
-        this.api.axiosObject.post(API_LOGOUT_PATH)
+        return this.api.axiosObject.post(API_LOGOUT_PATH)
             .then(
                 function (response) {
                     AxiosApiInstance.removeApiToken();

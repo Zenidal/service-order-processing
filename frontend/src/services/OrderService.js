@@ -14,25 +14,25 @@ export default class OrderService {
     }
 
     getAllOrders(successCallback, errorCallback) {
-        this.api.axiosObject.get(API_ORDER_PATH)
+        return this.api.axiosObject.get(API_ORDER_PATH)
             .then(successCallback)
             .catch(errorCallback);
     }
 
     deleteOrder(id, successCallback, errorCallback) {
-        this.api.axiosObject.delete(API_ORDER_PATH + '/' + id)
+        return this.api.axiosObject.delete(API_ORDER_PATH + '/' + id)
             .then(successCallback)
             .catch(errorCallback);
     }
 
     getOrder(id, successCallback, errorCallback) {
-        this.api.axiosObject.get(API_ORDER_PATH + '/' + id)
+        return this.api.axiosObject.get(API_ORDER_PATH + '/' + id)
             .then(successCallback)
             .catch(errorCallback);
     }
 
     newOrder(order, successCallback, errorCallback) {
-        this.api.axiosObject.post(API_ORDER_PATH + '/create-from-address-company', {
+        return this.api.axiosObject.post(API_ORDER_PATH + '/create-from-address-company', {
             description: order.description,
             exact_address: order.exactAddress,
             company_id: order.companyId,
@@ -44,7 +44,7 @@ export default class OrderService {
     }
 
     editOrder(order, successCallback, errorCallback) {
-        this.api.axiosObject.put(API_ORDER_PATH + '/' + order.id + '/edit-from-address-company', {
+        return this.api.axiosObject.put(API_ORDER_PATH + '/' + order.id + '/edit-from-address-company', {
             description: order.description,
             exact_address: order.exactAddress,
             company_id: order.companyId,
@@ -63,7 +63,7 @@ export default class OrderService {
             params.comment = comment;
         }
 
-        this.api.axiosObject.post(API_ORDER_PATH + '/' + order.id + '/assign', params)
+        return this.api.axiosObject.post(API_ORDER_PATH + '/' + order.id + '/assign', params)
             .then(successCallback)
             .catch(errorCallback);
     }
@@ -73,7 +73,7 @@ export default class OrderService {
         if (comment) {
             params.comment = comment;
         }
-        this.api.axiosObject.post(API_ORDER_PATH + '/' + order.id + '/start-progress', params)
+        return this.api.axiosObject.post(API_ORDER_PATH + '/' + order.id + '/start-progress', params)
             .then(successCallback)
             .catch(errorCallback);
     }
@@ -83,7 +83,7 @@ export default class OrderService {
         if (comment) {
             params.comment = comment;
         }
-        this.api.axiosObject.post(API_ORDER_PATH + '/' + order.id + '/resolve', params)
+        return this.api.axiosObject.post(API_ORDER_PATH + '/' + order.id + '/resolve', params)
             .then(successCallback)
             .catch(errorCallback);
     }
@@ -93,7 +93,7 @@ export default class OrderService {
         if (comment) {
             params.comment = comment;
         }
-        this.api.axiosObject.post(API_ORDER_PATH + '/' + order.id + '/close', params)
+        return this.api.axiosObject.post(API_ORDER_PATH + '/' + order.id + '/close', params)
             .then(successCallback)
             .catch(errorCallback);
     }
@@ -103,13 +103,13 @@ export default class OrderService {
         if (comment) {
             params.comment = comment;
         }
-        this.api.axiosObject.post(API_ORDER_PATH + '/' + order.id + '/reopen', params)
+        return this.api.axiosObject.post(API_ORDER_PATH + '/' + order.id + '/reopen', params)
             .then(successCallback)
             .catch(errorCallback);
     }
 
     getStatusHistories(orderId, successCallback, errorCallback) {
-        this.api.axiosObject.get(API_ORDER_PATH + '/' + orderId + '/order-status-histories')
+        return this.api.axiosObject.get(API_ORDER_PATH + '/' + orderId + '/order-status-histories')
             .then(successCallback)
             .catch(errorCallback);
     }

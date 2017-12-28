@@ -14,7 +14,7 @@ export default class RoleService {
     }
 
     getAllRoles(successCallback, errorCallback) {
-        this.api.axiosObject.get(API_ROLE_PATH)
+        return this.api.axiosObject.get(API_ROLE_PATH)
             .then(successCallback)
             .catch(errorCallback);
     }

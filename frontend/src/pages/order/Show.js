@@ -47,7 +47,7 @@ export default class ShowOrder extends Component {
         }.bind(this));
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getOrder();
         this.getStatusHistories();
     }
@@ -61,12 +61,6 @@ export default class ShowOrder extends Component {
 
         return (
             <Container>
-                {(!content || !histories) &&
-                <Dimmer active inverted>
-                    <Loader size='small'>Loading</Loader>
-                </Dimmer>
-                }
-
                 <Grid columns={2} divided>
                     <Grid.Row>
                         <Grid.Column>

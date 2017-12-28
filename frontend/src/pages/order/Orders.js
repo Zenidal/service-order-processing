@@ -39,13 +39,12 @@ export default class Orders extends Component {
         }.bind(this));
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getOrders();
     }
 
     render() {
-        let isLoaded = this.state.orders.length > 0;
-        let columns = isLoaded ? this.state.orders.map(function (order) {
+        let columns = this.state.orders.map(function (order) {
                 return (
                     <Table.Row key={order.id}>
                         <Table.Cell>{order.id}</Table.Cell>
@@ -68,16 +67,10 @@ export default class Orders extends Component {
                         </Table.Cell>
                     </Table.Row>
                 );
-            })
-            : <Table.Row/>;
+            });
 
         return (
             <Container>
-                {!isLoaded &&
-                <Dimmer active inverted>
-                    <Loader size='small'>Loading</Loader>
-                </Dimmer>
-                }
                 <Table compact celled>
                     <Table.Header>
                         <Table.Row>

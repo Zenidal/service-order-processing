@@ -14,7 +14,7 @@ export default class CompanyService {
     }
 
     searchCompany(q, limit, successCallback, errorCallback) {
-        this.api.axiosObject.get(COMPANY_PATH + '/search', {
+        return this.api.axiosObject.get(COMPANY_PATH + '/search', {
             q: q,
             limit: limit
         })
@@ -23,7 +23,7 @@ export default class CompanyService {
     }
 
     searchCompanyBranchByAddress(q, companyId, localityId, limit, successCallback, errorCallback){
-        this.api.axiosObject.post(COMPANY_BRANCH_PATH + '/search', {
+        return this.api.axiosObject.post(COMPANY_BRANCH_PATH + '/search', {
             q: q,
             limit: limit,
             companyId: companyId,

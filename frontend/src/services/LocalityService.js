@@ -14,7 +14,7 @@ export default class CompanyService {
     }
 
     searchLocality(q, limit, successCallback, errorCallback) {
-        this.api.axiosObject.get(LOCALITY_PATH + '/search', {
+        return this.api.axiosObject.get(LOCALITY_PATH + '/search', {
             q: q,
             limit: limit
         })

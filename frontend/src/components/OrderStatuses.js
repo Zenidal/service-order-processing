@@ -20,14 +20,6 @@ export default class OrderStatuses extends Component {
 
     componentWillReceiveProps(newProps) {
         let contentForm;
-        if (!newProps.order) {
-            contentForm = (
-                <Dimmer active inverted>
-                    <Loader size='small'>Loading</Loader>
-                </Dimmer>
-            );
-            return this.setState({contentForm: contentForm});
-        }
         switch (parseInt(newProps.order.status, 10)) {
             case 1: {
                 contentForm = <AssignForm
