@@ -5,17 +5,22 @@ import UserService from "../services/UserService";
 import {HOME_PATH, REGISTER_PATH, LOGIN_PATH, ORDER_PATH} from '../constants/RoutePaths';
 import {withRouter} from 'react-router';
 import HeaderUserInfo from "./HeaderUserInfo";
-import Notifications from "./Notifications";
+import NotificationSystem from "react-notification-system";
 
 class CustomHeader extends Component {
     constructor(props) {
         super(props);
 
         this.userService = new UserService();
+        this.notificationSystem = null;
 
         this.state = {};
 
         this.logout = this.logout.bind(this);
+    }
+
+    componentDidMount() {
+        this.notificationSystem = this.refs.notificationSystem;
     }
 
     logout(event) {
@@ -25,7 +30,10 @@ class CustomHeader extends Component {
             }.bind(this),
             function (error) {
                 this.props.history.push(LOGIN_PATH);
-                Notifications.addError(error.message);
+                this.notificationSystem.addNotification({
+                    message: error.message,
+                    level: 'error'
+                });
             }.bind(this)
         );
     }
@@ -56,6 +64,7 @@ class CustomHeader extends Component {
                     {registerLink}
                     {logoutLink}
                     <HeaderUserInfo user={UserService.user()}/>
+                    <NotificationSystem ref="notificationSystem"/>
                 </Menu>
             </Header>
         );

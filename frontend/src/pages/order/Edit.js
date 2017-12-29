@@ -6,7 +6,7 @@ import LocalityService from "../../services/LocalityService";
 import OrderForm from '../../components/OrderForm';
 import {ORDER_PATH} from "../../constants/RoutePaths";
 import {mapOrder} from "../../constants/OrderHelper";
-import Notifications from "../../components/Notifications";
+import NotificationSystem from "react-notification-system";
 
 export default class EditOrder extends Component {
     constructor(props) {
@@ -15,6 +15,7 @@ export default class EditOrder extends Component {
         this.orderService = new OrderService();
         this.companyService = new CompanyService();
         this.localityService = new LocalityService();
+        this.notificationSystem = null;
         this.actionText = 'Edit';
         this.searchLimit = 10;
 
@@ -88,7 +89,10 @@ export default class EditOrder extends Component {
                 });
                 this.resetCompanyAddresses();
             }.bind(this), function (error) {
-                Notifications.addError(error.message);
+                this.notificationSystem.addNotification({
+                    message: error.message,
+                    level: 'error'
+                });
             }
         );
     }
@@ -110,7 +114,10 @@ export default class EditOrder extends Component {
                 });
                 this.resetCompanyAddresses();
             }.bind(this), function (error) {
-                Notifications.addError(error.message);
+                this.notificationSystem.addNotification({
+                    message: error.message,
+                    level: 'error'
+                });
             }
         );
     }
@@ -144,7 +151,10 @@ export default class EditOrder extends Component {
                     return {companyAddresses: companyAddresses, newCompanyAddress: newCompanyAddress};
                 });
             }.bind(this), function (error) {
-                Notifications.addError(error.message);
+                this.notificationSystem.addNotification({
+                    message: error.message,
+                    level: 'error'
+                });
             }
         );
     }
@@ -171,7 +181,10 @@ export default class EditOrder extends Component {
                         this.setApiValidationErrors(error.response.data.error);
                     }
                 } else {
-                    Notifications.addError(error.message);
+                    this.notificationSystem.addNotification({
+                        message: error.message,
+                        level: 'error'
+                    });
                 }
             }.bind(this)
         );
@@ -204,6 +217,7 @@ export default class EditOrder extends Component {
 
     componentDidMount() {
         this.getOrder();
+        this.notificationSystem = this.refs.notificationSystem;
     }
 
     render() {
@@ -225,6 +239,7 @@ export default class EditOrder extends Component {
         return (
             <Container>
                 {content}
+                <NotificationSystem ref="notificationSystem"/>
             </Container>
         );
     }

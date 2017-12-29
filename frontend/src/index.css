@@ -4,8 +4,12 @@
     right: 0;
 }
 
-.fixed-grid-container{
+.fixed-grid-container {
     overflow-y: scroll;
     max-height: 500px;
     padding-top: 5px;
+}
+
+.notification-error:before {
+    content: normal !important;
 }

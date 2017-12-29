@@ -3,13 +3,14 @@ import {Button, Form, Grid, Header, Message, Segment} from 'semantic-ui-react'
 import {Link} from 'react-router-dom';
 import UserService from '../services/UserService';
 import {HOME_PATH, REGISTER_PATH} from "../constants/RoutePaths";
-import Notifications from "../components/Notifications";
+import NotificationSystem from "react-notification-system";
 
 export default class Login extends Component {
     constructor(props) {
         super(props);
 
         this.userService = new UserService();
+        this.notificationSystem = null;
 
         this.state = {
             loginUser: {
@@ -23,6 +24,10 @@ export default class Login extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount(){
+        this.notificationSystem = this.refs.notificationSystem;
     }
 
     handleChange(event, {name, value}) {
@@ -78,7 +83,10 @@ export default class Login extends Component {
                         this.setApiValidationErrors(error.response.data.errors);
                     }
                 } else {
-                    Notifications.addError(error.message);
+                    this.notificationSystem.addNotification({
+                        message: error.message,
+                        level: 'error'
+                    });
                 }
             }.bind(this)
         );
@@ -131,6 +139,7 @@ export default class Login extends Component {
                     <Message>
                         New to us? <Link to={REGISTER_PATH}>Sign Up</Link>
                     </Message>
+                    <NotificationSystem ref="notificationSystem"/>
                 </Grid.Column>
             </Grid>
         );

@@ -5,7 +5,7 @@ import AxiosApiInstance from '../services/AxiosApiInstance';
 import UserService from '../services/UserService';
 import RoleService from '../services/RoleService';
 import {LOGIN_PATH} from "../constants/RoutePaths";
-import Notifications from "../components/Notifications";
+import NotificationSystem from "react-notification-system";
 
 export default class Register extends Component {
     constructor(props) {
@@ -14,6 +14,7 @@ export default class Register extends Component {
         this.api = new AxiosApiInstance();
         this.userService = new UserService();
         this.roleService = new RoleService();
+        this.notificationSystem = null;
 
         this.state = {
             roles: [],
@@ -38,6 +39,7 @@ export default class Register extends Component {
 
     componentDidMount() {
         this.initializeRoles();
+        this.notificationSystem = this.refs.notificationSystem;
     }
 
     handleChange(event, {name, value}) {
@@ -110,7 +112,10 @@ export default class Register extends Component {
                         this.setApiValidationErrors(error.response.data.errors);
                     }
                 } else {
-                    Notifications.addError(error.message);
+                    this.notificationSystem.addNotification({
+                        message: error.message,
+                        level: 'error'
+                    });
                 }
             }.bind(this)
         );
@@ -209,6 +214,7 @@ export default class Register extends Component {
                         <Message>
                             Do you have account? <Link to={LOGIN_PATH}>Sign in</Link>
                         </Message>
+                        <NotificationSystem ref="notificationSystem"/>
                     </Grid.Column>
                 </Grid>
             </div>
