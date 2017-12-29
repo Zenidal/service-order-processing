@@ -35,13 +35,11 @@ export default class AssignForm extends Component {
             }.bind(this),
             function (error) {
                 this.setErrors(error.response.data.error);
-            })
+            }.bind(this))
     }
 
     setErrors(errorString) {
-        if(errorString){
-            this.setState({errorString: errorString});
-        }
+        this.setState({errorString: errorString});
     }
 
     resetErrors() {
