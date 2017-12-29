@@ -5,9 +5,10 @@ import CompanyService from "../../services/CompanyService";
 import LocalityService from "../../services/LocalityService";
 import OrderForm from '../../constants/OrderForm';
 import {ORDER_PATH} from "../../constants/RoutePaths";
+import {mapOrder} from "../../constants/OrderHelper";
 import NotificationSystem from "react-notification-system";
 
-export default class NewOrder extends Component {
+export default class ProcessOrder extends Component {
     constructor(props) {
         super(props);
 
@@ -15,11 +16,13 @@ export default class NewOrder extends Component {
         this.companyService = new CompanyService();
         this.localityService = new LocalityService();
         this.notificationSystem = null;
-        this.actionText = 'Create';
         this.searchLimit = 10;
 
+        let orderId = (props.match && props.match.params.number) || null;
+
         this.state = {
-            orderId: props.match.params.number,
+            orderId: orderId,
+            actionText: orderId ? 'Edit' : 'Create',
             order: {
                 id: '',
                 companyId: '',
@@ -48,8 +51,40 @@ export default class NewOrder extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
+        if (this.state.orderId) this.getOrder();
         this.notificationSystem = this.refs.notificationSystem;
+    }
+
+    getOrder() {
+        this.orderService.getOrder(this.state.orderId, function (response) {
+            this.setState(() => {
+                return {
+                    order: mapOrder(response.data.order),
+                    companies: [
+                        {
+                            key: response.data.order.company_branch.company.id,
+                            text: response.data.order.company_branch.company.name,
+                            value: response.data.order.company_branch.company.id,
+                        }
+                    ],
+                    localities: [
+                        {
+                            key: response.data.order.company_branch.address.locality.id,
+                            text: response.data.order.company_branch.address.locality.name,
+                            value: response.data.order.company_branch.address.locality.id,
+                        }
+                    ],
+                    companyAddresses: [
+                        {
+                            key: response.data.order.company_branch.address.id,
+                            text: response.data.order.company_branch.address.exact_address,
+                            value: response.data.order.company_branch.address.id,
+                        }
+                    ]
+                }
+            })
+        }.bind(this));
     }
 
     searchCompanies(event, {searchQuery}) {
@@ -149,8 +184,9 @@ export default class NewOrder extends Component {
         this.setState({error: ''});
     }
 
-    newOrder() {
-        this.orderService.newOrder(
+    processOrder() {
+        let method = this.state.orderId ? 'editOrder' : 'newOrder';
+        this.orderService[method](
             this.state.order,
             function (response) {
                 this.props.history.push(ORDER_PATH);
@@ -171,7 +207,7 @@ export default class NewOrder extends Component {
     }
 
     handleSubmit() {
-        this.newOrder();
+        this.processOrder();
     }
 
     handleChange(event, {name, value, options}) {
@@ -199,7 +235,7 @@ export default class NewOrder extends Component {
         return (
             <Container>
                 <OrderForm
-                    actionText={this.actionText}
+                    actionText={this.state.actionText}
                     companies={this.state.companies}
                     localities={this.state.localities}
                     companyAddresses={this.state.companyAddresses.concat([this.state.newCompanyAddress])}
