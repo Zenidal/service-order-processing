@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Item, Container, Dimmer, Loader, Grid} from 'semantic-ui-react'
+import {Item, Container, Grid} from 'semantic-ui-react'
 import OrderService from "../../services/OrderService";
 import {Link} from 'react-router-dom';
 import {makeUrl, ORDER_EDIT_PATH, ORDER_PATH} from "../../constants/RoutePaths";

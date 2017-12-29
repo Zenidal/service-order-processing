@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {Container, Dimmer, Loader} from 'semantic-ui-react'
+import {Container} from 'semantic-ui-react'
 import OrderService from "../../services/OrderService";
 import CompanyService from "../../services/CompanyService";
 import LocalityService from "../../services/LocalityService";
-import OrderForm from '../../components/OrderForm';
+import OrderForm from '../../constants/OrderForm';
 import {ORDER_PATH} from "../../constants/RoutePaths";
 import {mapOrder} from "../../constants/OrderHelper";
 import NotificationSystem from "react-notification-system";
@@ -21,11 +21,24 @@ export default class EditOrder extends Component {
 
         this.state = {
             orderId: props.match.params.number,
-            order: {},
+            order: {
+                id: '',
+                companyId: '',
+                companyName: '',
+                localityId: '',
+                localityName: '',
+                exactAddress: '',
+                addressId: '',
+                description: '',
+            },
             companies: [],
             localities: [],
             companyAddresses: [],
-            newCompanyAddress: {},
+            newCompanyAddress: {
+                key: 0,
+                text: '',
+                value: 0
+            },
             error: ''
         };
 
@@ -34,6 +47,11 @@ export default class EditOrder extends Component {
         this.searchLocalities = this.searchLocalities.bind(this);
         this.searchCompanyBranches = this.searchCompanyBranches.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        this.getOrder();
+        this.notificationSystem = this.refs.notificationSystem;
     }
 
     getOrder() {
@@ -61,12 +79,7 @@ export default class EditOrder extends Component {
                             text: response.data.order.company_branch.address.exact_address,
                             value: response.data.order.company_branch.address.id,
                         }
-                    ],
-                    newCompanyAddress: {
-                        key: 0,
-                        text: '',
-                        value: 0
-                    }
+                    ]
                 }
             })
         }.bind(this));
@@ -215,30 +228,22 @@ export default class EditOrder extends Component {
         });
     }
 
-    componentDidMount() {
-        this.getOrder();
-        this.notificationSystem = this.refs.notificationSystem;
-    }
-
     render() {
-        let content =
-            <OrderForm
-                actionText={this.actionText}
-                companies={this.state.companies}
-                localities={this.state.localities}
-                companyAddresses={this.state.companyAddresses.concat([this.state.newCompanyAddress])}
-                order={this.state.order}
-                error={this.state.error}
-                handleChange={this.handleChange}
-                handleSubmit={this.handleSubmit}
-                searchCompanies={this.searchCompanies}
-                searchLocalities={this.searchLocalities}
-                searchCompanyBranches={this.searchCompanyBranches}
-            />;
-
         return (
             <Container>
-                {content}
+                <OrderForm
+                    actionText={this.actionText}
+                    companies={this.state.companies}
+                    localities={this.state.localities}
+                    companyAddresses={this.state.companyAddresses.concat([this.state.newCompanyAddress])}
+                    order={this.state.order}
+                    error={this.state.error}
+                    handleChange={this.handleChange}
+                    handleSubmit={this.handleSubmit}
+                    searchCompanies={this.searchCompanies}
+                    searchLocalities={this.searchLocalities}
+                    searchCompanyBranches={this.searchCompanyBranches}
+                />
                 <NotificationSystem ref="notificationSystem"/>
             </Container>
         );

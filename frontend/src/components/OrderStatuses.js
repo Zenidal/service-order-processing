@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Step, Dimmer, Loader} from 'semantic-ui-react';
+import {Step} from 'semantic-ui-react';
 import AssignForm from "./AssignForm";
 import StatusForm from "./StatusForm";
 

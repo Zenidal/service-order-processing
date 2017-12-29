@@ -3,7 +3,7 @@ import {Container} from 'semantic-ui-react'
 import OrderService from "../../services/OrderService";
 import CompanyService from "../../services/CompanyService";
 import LocalityService from "../../services/LocalityService";
-import OrderForm from '../../components/OrderForm';
+import OrderForm from '../../constants/OrderForm';
 import {ORDER_PATH} from "../../constants/RoutePaths";
 import NotificationSystem from "react-notification-system";
 

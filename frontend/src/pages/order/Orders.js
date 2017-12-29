@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Table, Menu, Container, Dimmer, Loader} from 'semantic-ui-react'
+import {Table, Menu, Container} from 'semantic-ui-react'
 import OrderService from "../../services/OrderService";
 import {Link} from 'react-router-dom';
 import {
