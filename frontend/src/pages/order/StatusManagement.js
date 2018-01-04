@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Container} from 'semantic-ui-react'
 import OrderService from "../../services/OrderService";
-import {mapOrder, orderView} from "../../constants/OrderHelper";
+import {mapOrder} from "../../constants/OrderHelper";
+import OrderView from "../../constants/OrderView";
 import OrderStatuses from '../../components/OrderStatuses';
 
 export default class StatusManagementOrder extends Component {
@@ -129,7 +130,7 @@ export default class StatusManagementOrder extends Component {
                     closeOrder={this.closeOrder}
                     reopenOrder={this.reopenOrder}
                 />
-                {orderView({order: this.state.order})}
+                <OrderView order={this.state.order}/>
             </Container>
         );
     }
