@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('orders/{order}/resolve', 'OrderController@resolve')->middleware('can:resolve,order');
     Route::post('orders/{order}/close', 'OrderController@close')->middleware('can:close,order');
     Route::post('orders/{order}/reopen', 'OrderController@reopen')->middleware('can:reopen,order');
-    Route::get('orders/{order}/order-status-histories', 'OrderController@showStatusHistories');
+    Route::get('orders/{order}/order-status-histories', 'OrderController@showStatusHistories')->middleware('can:showStatusHistories,order');
 });
 
 Route::post('register', 'Auth\RegisterController@register');
