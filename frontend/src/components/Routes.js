@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Switch} from 'react-router';
+import {Route, Switch} from 'react-router';
 import Home from '../pages/Home';
 import Orders from '../pages/order/Orders';
 import ShowOrder from '../pages/order/Show';
@@ -23,7 +23,7 @@ export default class Routes extends Component {
     render() {
         return (
             <Switch>
-                <PrivateRoute path={HOME_PATH} component={Home}/>
+                <Route exact path={HOME_PATH} component={UserService.isAuthenticated() ? Home : Login}/>
 
                 <PrivateRoute exact path={ORDER_PATH} component={Orders}/>
                 <PrivateRoute exact path={ORDER_SHOW_PATH} component={ShowOrder}/>

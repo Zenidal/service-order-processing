@@ -1,6 +1,6 @@
 const LOGIN_PATH = '/login';
 const REGISTER_PATH = '/register';
-const HOME_PATH = '/home';
+const HOME_PATH = '/';
 
 const ORDER_PATH = '/orders';
 const ORDER_NEW_PATH = '/orders/new';
