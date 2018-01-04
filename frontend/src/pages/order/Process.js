@@ -7,6 +7,7 @@ import OrderForm from '../../constants/OrderForm';
 import {ORDER_PATH} from "../../constants/RoutePaths";
 import {mapOrder} from "../../constants/OrderHelper";
 import NotificationSystem from "react-notification-system";
+import ErrorView from "../../constants/ErrorView";
 
 export default class ProcessOrder extends Component {
     constructor(props) {
@@ -44,6 +45,7 @@ export default class ProcessOrder extends Component {
             }
         };
 
+        this.handleError = this.handleError.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.searchCompanies = this.searchCompanies.bind(this);
         this.searchLocalities = this.searchLocalities.bind(this);
@@ -54,6 +56,23 @@ export default class ProcessOrder extends Component {
     componentDidMount() {
         if (this.state.orderId) this.getOrder();
         this.notificationSystem = this.refs.notificationSystem;
+    }
+
+    handleError(error) {
+        if (error.response) {
+            let message;
+            switch (error.response.status) {
+                case 403:
+                    message = 'Forbidden.';
+                    break;
+                case 404:
+                    message = 'Not found.';
+                    break;
+                default:
+                    message = '';
+            }
+            this.setState({error: {message: message}});
+        }
     }
 
     getOrder() {
@@ -84,7 +103,7 @@ export default class ProcessOrder extends Component {
                     ]
                 }
             })
-        }.bind(this));
+        }.bind(this), this.handleError);
     }
 
     searchCompanies(event, {searchQuery}) {
@@ -232,23 +251,40 @@ export default class ProcessOrder extends Component {
     }
 
     render() {
-        return (
-            <Container>
-                <OrderForm
-                    actionText={this.state.actionText}
-                    companies={this.state.companies}
-                    localities={this.state.localities}
-                    companyAddresses={this.state.companyAddresses.concat([this.state.newCompanyAddress])}
-                    order={this.state.order}
-                    error={this.state.error}
-                    handleChange={this.handleChange}
-                    handleSubmit={this.handleSubmit}
-                    searchCompanies={this.searchCompanies}
-                    searchLocalities={this.searchLocalities}
-                    searchCompanyBranches={this.searchCompanyBranches}
-                />
-                <NotificationSystem ref="notificationSystem"/>
-            </Container>
-        );
+        let view = (props) => {
+            return !props.error ? (
+                <Container>
+                    <OrderForm
+                        actionText={props.actionText}
+                        companies={props.companies}
+                        localities={props.localities}
+                        companyAddresses={props.companyAddresses.concat([props.newCompanyAddress])}
+                        order={props.order}
+                        error={props.error}
+                        handleChange={props.handleChange}
+                        handleSubmit={props.handleSubmit}
+                        searchCompanies={props.searchCompanies}
+                        searchLocalities={props.searchLocalities}
+                        searchCompanyBranches={props.searchCompanyBranches}
+                    />
+                    <NotificationSystem ref="notificationSystem"/>
+                </Container>
+            ) : (<ErrorView error={props.error}/>);
+        };
+
+        return view({
+            actionText: this.state.actionText,
+            companies: this.state.companies,
+            localities: this.state.localities,
+            companyAddresses: this.state.companyAddresses,
+            newCompanyAddress: this.state.newCompanyAddress,
+            order: this.state.order,
+            error: this.state.error,
+            handleChange: this.handleChange,
+            handleSubmit: this.handleSubmit,
+            searchCompanies: this.searchCompanies,
+            searchLocalities: this.searchLocalities,
+            searchCompanyBranches: this.searchCompanyBranches
+        });
     }
 }

@@ -82,7 +82,7 @@ export default class ShowOrder extends Component {
         }) : 'Status history is empty.';
 
         let view = (props) => {
-            return this.state.order.id ? (
+            return !props.error ? (
                 <Container>
                     <Grid columns={2} divided>
                         <Grid.Row>
@@ -95,8 +95,9 @@ export default class ShowOrder extends Component {
                                         <Link to={ORDER_PATH}>Orders</Link>
                                     </Item>
                                     <Item>
-                                        <Link to={makeUrl(ORDER_STATUS_MANAGEMENT_PATH, {number: props.orderId})}>Status
-                                            management</Link>
+                                        <Link to={makeUrl(ORDER_STATUS_MANAGEMENT_PATH, {number: props.orderId})}>
+                                            Status management
+                                        </Link>
                                     </Item>
                                     <Item>
                                         <Link to={makeUrl(ORDER_EDIT_PATH, {number: props.orderId})}>Edit</Link>
