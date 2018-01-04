@@ -26,6 +26,8 @@ class Order extends Model
 {
     protected $with = ['companyBranch', 'engineer', 'owner'];
 
+    protected $appends = ['statusName'];
+
     /**
      * Get branch of the company, where equipment where broken
      */
@@ -72,6 +74,26 @@ class Order extends Model
     public function setStatus($status)
     {
         $this->attributes['status'] = $status;
+    }
+
+    public function getStatusNameAttribute()
+    {
+        switch ($this->attributes['status']) {
+            case 1:
+                return 'Opened';
+            case 2:
+                return 'Assigned';
+            case 3:
+                return 'In progress';
+            case 4:
+                return 'Resolved';
+            case 5:
+                return 'Closed';
+            case 6:
+                return 'Reopened';
+            default:
+                return '';
+        }
     }
 
     /**

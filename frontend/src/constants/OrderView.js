@@ -15,7 +15,7 @@ const OrderView = (props) => (
                 <span> {props.order.localityName}</span>,
                 <span> {props.order.exactAddress}</span>
             </Item.Description>
-            <Item.Extra>Status: {props.order.status}</Item.Extra>
+            <Item.Extra>Status: {props.order.statusName}</Item.Extra>
             <Item.Extra>Owner: {props.order.ownerName}</Item.Extra>
             <Item.Extra>Engineer: {props.order.engineerName || 'Engineer haven\' assigned.'}</Item.Extra>
         </Item.Content>

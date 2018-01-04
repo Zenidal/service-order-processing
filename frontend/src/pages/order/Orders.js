@@ -6,6 +6,7 @@ import {
     makeUrl, ORDER_EDIT_PATH, ORDER_NEW_PATH, ORDER_SHOW_PATH,
     ORDER_STATUS_MANAGEMENT_PATH
 } from "../../constants/RoutePaths";
+import {mapOrder} from "../../constants/OrderHelper";
 
 export default class Orders extends Component {
     constructor(props) {
@@ -22,18 +23,7 @@ export default class Orders extends Component {
         this.orderService.getAllOrders(function (response) {
             this.setState({
                 orders: response.data.orders.map(function (order, index) {
-                    return {
-                        id: order.id,
-                        description: order.description,
-                        status: order.status,
-                        companyName: order.company_branch.company.name,
-                        countryName: order.company_branch.address.locality.country.name,
-                        localityName: order.company_branch.address.locality.name,
-                        exactAddress: order.company_branch.address.exact_address,
-                        createdAt: order.created_at,
-                        engineerName: order.engineer && order.engineer.name ? order.engineer.name : '',
-                        ownerName: order.owner.name
-                    };
+                    return mapOrder(order);
                 })
             });
         }.bind(this));
@@ -49,7 +39,7 @@ export default class Orders extends Component {
                     <Table.Row key={order.id}>
                         <Table.Cell>{order.id}</Table.Cell>
                         <Table.Cell>{order.description}</Table.Cell>
-                        <Table.Cell>{order.status}</Table.Cell>
+                        <Table.Cell>{order.statusName}</Table.Cell>
                         <Table.Cell>{order.companyName}</Table.Cell>
                         <Table.Cell>{order.countryName}</Table.Cell>
                         <Table.Cell>{order.localityName}</Table.Cell>

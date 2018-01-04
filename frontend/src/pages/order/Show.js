@@ -2,8 +2,11 @@ import React, {Component} from 'react';
 import {Item, Container, Grid} from 'semantic-ui-react'
 import OrderService from "../../services/OrderService";
 import {Link} from 'react-router-dom';
-import {makeUrl, ORDER_EDIT_PATH, ORDER_PATH} from "../../constants/RoutePaths";
-import {mapOrder} from "../../constants/OrderHelper";
+import {
+    makeUrl, ORDER_EDIT_PATH, ORDER_PATH,
+    ORDER_STATUS_MANAGEMENT_PATH
+} from "../../constants/RoutePaths";
+import {mapOrder, mapOrderStatusHistory} from "../../constants/OrderHelper";
 import OrderView from '../../constants/OrderView';
 import OrderStatusHistoryView from '../../constants/OrderStatusHistoryView';
 import NotificationSystem from 'react-notification-system';
@@ -64,16 +67,7 @@ export default class ShowOrder extends Component {
                 this.setState(() => {
                     return {
                         orderStatusHistories: response.data.orderStatusHistories ? response.data.orderStatusHistories.map(function (orderStatusHistory) {
-                            return {
-                                id: orderStatusHistory.id,
-                                orderId: orderStatusHistory.order_id,
-                                userId: orderStatusHistory.user_id,
-                                userName: orderStatusHistory.user.name,
-                                fromStatus: orderStatusHistory.from_status,
-                                toStatus: orderStatusHistory.to_status,
-                                comment: orderStatusHistory.comment,
-                                createdAt: orderStatusHistory.created_at
-                            };
+                            return mapOrderStatusHistory(orderStatusHistory);
                         }) : []
                     };
                 });
@@ -83,9 +77,9 @@ export default class ShowOrder extends Component {
     render() {
         let orderView = this.state.order.id ? <OrderView order={this.state.order}/> : '';
 
-        let historiesView = this.state.orderStatusHistories ? this.state.orderStatusHistories.map(function (orderStatusHistory) {
+        let historiesView = this.state.orderStatusHistories.length > 0 ? this.state.orderStatusHistories.map(function (orderStatusHistory) {
             return <OrderStatusHistoryView key={orderStatusHistory.id} orderStatusHistory={orderStatusHistory}/>;
-        }) : '';
+        }) : 'Status history is empty.';
 
         let view = (props) => {
             return this.state.order.id ? (
@@ -99,6 +93,10 @@ export default class ShowOrder extends Component {
                                 <Item.Group>
                                     <Item>
                                         <Link to={ORDER_PATH}>Orders</Link>
+                                    </Item>
+                                    <Item>
+                                        <Link to={makeUrl(ORDER_STATUS_MANAGEMENT_PATH, {number: props.orderId})}>Status
+                                            management</Link>
                                     </Item>
                                     <Item>
                                         <Link to={makeUrl(ORDER_EDIT_PATH, {number: props.orderId})}>Edit</Link>
@@ -117,6 +115,11 @@ export default class ShowOrder extends Component {
             ) : (<ErrorView error={props.error}/>)
         };
 
-        return view({orderView: orderView, historiesView: historiesView, error: this.state.error, orderId: this.state.orderId});
+        return view({
+            orderView: orderView,
+            historiesView: historiesView,
+            error: this.state.error,
+            orderId: this.state.orderId
+        });
     }
 }

@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-import {Container} from 'semantic-ui-react'
+import {Container, Grid, Item} from 'semantic-ui-react'
 import OrderService from "../../services/OrderService";
 import {mapOrder} from "../../constants/OrderHelper";
 import OrderView from "../../constants/OrderView";
 import OrderStatuses from '../../components/OrderStatuses';
+import {makeUrl, ORDER_EDIT_PATH, ORDER_PATH, ORDER_SHOW_PATH} from "../../constants/RoutePaths";
+import {Link} from "react-router-dom";
 
 export default class StatusManagementOrder extends Component {
     constructor(props) {
@@ -120,17 +122,38 @@ export default class StatusManagementOrder extends Component {
     render() {
         return (
             <Container>
-                <OrderStatuses
-                    engineerId={this.state.order.engineerId}
-                    engineers={this.state.engineers}
-                    order={this.state.order}
-                    assignOrder={this.assignOrder}
-                    startProgressOrder={this.startProgressOrder}
-                    resolveOrder={this.resolveOrder}
-                    closeOrder={this.closeOrder}
-                    reopenOrder={this.reopenOrder}
-                />
-                <OrderView order={this.state.order}/>
+                <Grid columns={2} divided>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Item.Group>
+                                <Item>
+                                    <OrderStatuses
+                                        engineerId={this.state.order.engineerId}
+                                        engineers={this.state.engineers}
+                                        order={this.state.order}
+                                        assignOrder={this.assignOrder}
+                                        startProgressOrder={this.startProgressOrder}
+                                        resolveOrder={this.resolveOrder}
+                                        closeOrder={this.closeOrder}
+                                        reopenOrder={this.reopenOrder}
+                                    />
+                                </Item>
+                                <OrderView order={this.state.order}/>
+                            </Item.Group>
+                            <Item.Group>
+                                <Item>
+                                    <Link to={ORDER_PATH}>Orders</Link>
+                                </Item>
+                                <Item>
+                                    <Link to={makeUrl(ORDER_EDIT_PATH, {number: this.state.orderId})}>Edit</Link>
+                                </Item>
+                                <Item>
+                                    <Link to={makeUrl(ORDER_SHOW_PATH, {number: this.state.orderId})}>Show</Link>
+                                </Item>
+                            </Item.Group>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
             </Container>
         );
     }

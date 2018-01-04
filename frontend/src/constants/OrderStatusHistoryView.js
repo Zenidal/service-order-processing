@@ -5,7 +5,7 @@ const OrderStatusHistoryView = (props) => (
     <Item>
         <Item.Content>
             <Item.Header>
-                {props.orderStatusHistory.fromStatus} => {props.orderStatusHistory.toStatus}
+                {props.orderStatusHistory.fromStatusName} => {props.orderStatusHistory.toStatusName}
             </Item.Header>
             <Item.Meta>
                 {props.orderStatusHistory.createdAt}

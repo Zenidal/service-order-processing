@@ -8,12 +8,12 @@ export default class OrderStatuses extends Component {
         super(props);
 
         this.statuses = [
-            {value: 1, text: "Opened", description: ''},
-            {value: 2, text: "Assigned", description: '',},
-            {value: 3, text: "In Progress", description: '',},
-            {value: 4, text: "Resolved", description: '',},
-            {value: 5, text: "Closed", description: '',},
-            {value: 6, text: "Reopened", description: '',},
+            {value: 1, text: "Opened"},
+            {value: 2, text: "Assigned"},
+            {value: 3, text: "In Progress"},
+            {value: 4, text: "Resolved"},
+            {value: 5, text: "Closed"},
+            {value: 6, text: "Reopened"},
         ];
         this.state = {contentForm: ''};
     }
@@ -89,7 +89,6 @@ export default class OrderStatuses extends Component {
                 <Step active={step.value === (parseInt(this.props.order.status, 10))} key={step.value}>
                     <Step.Content>
                         <Step.Title>{step.text}</Step.Title>
-                        <Step.Description>{step.description}</Step.Description>
                     </Step.Content>
                 </Step>
             );

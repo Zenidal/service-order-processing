@@ -6,6 +6,7 @@ const mapOrder = (responseOrder) => {
         addressId: responseOrder.company_branch.address.id,
         description: responseOrder.description,
         status: responseOrder.status,
+        statusName: responseOrder.statusName,
         companyName: responseOrder.company_branch.company.name,
         countryName: responseOrder.company_branch.address.locality.country.name,
         localityName: responseOrder.company_branch.address.locality.name,
@@ -17,4 +18,19 @@ const mapOrder = (responseOrder) => {
     }
 };
 
-export {mapOrder};
+const mapOrderStatusHistory = (responseStatusHistory) => {
+    return {
+        id: responseStatusHistory.id,
+        orderId: responseStatusHistory.order_id,
+        userId: responseStatusHistory.user_id,
+        userName: responseStatusHistory.user.name,
+        fromStatus: responseStatusHistory.from_status,
+        fromStatusName: responseStatusHistory.fromStatusName,
+        toStatus: responseStatusHistory.to_status,
+        toStatusName: responseStatusHistory.toStatusName,
+        comment: responseStatusHistory.comment,
+        createdAt: responseStatusHistory.created_at
+    };
+};
+
+export {mapOrder, mapOrderStatusHistory};
