@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import {Button, Form, Grid, Header, Message, Segment} from 'semantic-ui-react'
-import {Link} from 'react-router-dom';
 import UserService from '../services/UserService';
-import {HOME_PATH, REGISTER_PATH} from "../constants/RoutePaths";
+import {HOME_PATH} from "../constants/RoutePaths";
 import NotificationSystem from "react-notification-system";
+import LoginForm from "../constants/LoginForm";
 
 export default class Login extends Component {
     constructor(props) {
@@ -26,7 +25,7 @@ export default class Login extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.notificationSystem = this.refs.notificationSystem;
     }
 
@@ -94,54 +93,14 @@ export default class Login extends Component {
 
     render() {
         return (
-            <Grid textAlign='center'>
-                <Grid.Column>
-                    <Header as='h2' color='teal' textAlign='center'>
-                        Log-in to your account
-                    </Header>
-                    <Form size='large' error>
-                        <Segment stacked>
-                            <Form.Input
-                                fluid
-                                icon='user'
-                                iconPosition='left'
-                                placeholder='E-mail address'
-                                name='email'
-                                value={this.state.loginUser.email}
-                                onChange={this.handleChange}
-                            />
-                            {this.state.loginUser.emailError.length > 0 &&
-                            <Message
-                                error
-                                content={this.state.loginUser.emailError}
-                            />
-                            }
-                            <Form.Input
-                                fluid
-                                icon='lock'
-                                iconPosition='left'
-                                placeholder='Password'
-                                type='password'
-                                name='password'
-                                value={this.state.loginUser.password}
-                                onChange={this.handleChange}
-                            />
-                            {this.state.loginUser.passwordError.length > 0 &&
-                            <Message
-                                error
-                                content={this.state.loginUser.passwordError}
-                            />
-                            }
-
-                            <Button color='teal' onClick={this.handleSubmit} fluid size='large'>Login</Button>
-                        </Segment>
-                    </Form>
-                    <Message>
-                        New to us? <Link to={REGISTER_PATH}>Sign Up</Link>
-                    </Message>
-                    <NotificationSystem ref="notificationSystem"/>
-                </Grid.Column>
-            </Grid>
+            <div>
+                <LoginForm
+                    loginUser={this.state.loginUser}
+                    handleChange={this.handleChange}
+                    handleSubmit={this.handleSubmit}
+                />
+                <NotificationSystem ref="notificationSystem"/>
+            </div>
         );
     }
 }

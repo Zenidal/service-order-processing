@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import {Button, Form, Grid, Header, Message, Segment} from 'semantic-ui-react';
-import {Link} from 'react-router-dom';
 import AxiosApiInstance from '../services/AxiosApiInstance';
 import UserService from '../services/UserService';
 import RoleService from '../services/RoleService';
 import {LOGIN_PATH} from "../constants/RoutePaths";
 import NotificationSystem from "react-notification-system";
+import RegisterForm from "../constants/RegisterForm";
 
 export default class Register extends Component {
     constructor(props) {
@@ -123,101 +122,15 @@ export default class Register extends Component {
 
     render() {
         return (
-            <div className='register-form'>
-                <Grid textAlign='center'>
-                    <Grid.Column>
-                        <Header as='h2' color='teal' textAlign='center'>
-                            Registration
-                        </Header>
-                        <Form size='large' error>
-                            <Segment stacked>
-                                <Form.Input
-                                    fluid
-                                    icon='user'
-                                    iconPosition='left'
-                                    placeholder='Name'
-                                    name='name'
-                                    value={this.state.registeredUser.name}
-                                    onChange={this.handleChange}
-                                />
-                                {this.state.registeredUser.nameError.length > 0 &&
-                                <Message
-                                    error
-                                    content={this.state.registeredUser.nameError}
-                                />
-                                }
-                                <Form.Input
-                                    fluid
-                                    icon='user'
-                                    iconPosition='left'
-                                    placeholder='Email'
-                                    name='email'
-                                    value={this.state.registeredUser.email}
-                                    onChange={this.handleChange}
-                                />
-                                {this.state.registeredUser.emailError.length > 0 &&
-                                <Message
-                                    error
-                                    content={this.state.registeredUser.emailError}
-                                />}
-                                <Form.Input
-                                    fluid
-                                    icon='lock'
-                                    iconPosition='left'
-                                    placeholder='Password'
-                                    type='password'
-                                    name='password'
-                                    value={this.state.registeredUser.password}
-                                    onChange={this.handleChange}
-                                />
-
-                                {this.state.registeredUser.passwordError.length > 0 &&
-                                <Message
-                                    error
-                                    content={this.state.registeredUser.passwordError}
-                                />
-                                }
-                                <Form.Input
-                                    fluid
-                                    icon='lock'
-                                    iconPosition='left'
-                                    placeholder='Password confirmation'
-                                    type='password'
-                                    name='passwordConfirmation'
-                                    value={this.state.registeredUser.passwordConfirmation}
-                                    onChange={this.handleChange}
-                                />
-                                {this.state.registeredUser.passwordConfirmationError.length > 0 &&
-                                <Message
-                                    error
-                                    content={this.state.registeredUser.passwordConfirmationError}
-                                />
-                                }
-                                <Form.Select
-                                    options={this.state.roles}
-                                    placeholder='Role'
-                                    name='roleId'
-                                    value={this.state.registeredUser.roleId}
-                                    onChange={this.handleChange}
-                                />
-                                {this.state.registeredUser.roleIdError.length > 0 &&
-                                <Message
-                                    error
-                                    content={this.state.registeredUser.roleIdError}
-                                />
-                                }
-
-                                <Button color='teal' onClick={this.handleSubmit} fluid
-                                        size='large'>Registration</Button>
-                            </Segment>
-                        </Form>
-                        <Message>
-                            Do you have account? <Link to={LOGIN_PATH}>Sign in</Link>
-                        </Message>
-                        <NotificationSystem ref="notificationSystem"/>
-                    </Grid.Column>
-                </Grid>
+            <div>
+                <RegisterForm
+                    registeredUser={this.state.registeredUser}
+                    roles={this.state.roles}
+                    handleChange={this.handleChange}
+                    handleSubmit={this.handleSubmit}
+                />
+                <NotificationSystem ref="notificationSystem"/>
             </div>
-        );
+        )
     }
 }
