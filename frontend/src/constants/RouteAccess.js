@@ -29,4 +29,17 @@ const GuestRoute = ({ component: Component, ...rest }) => (
     )}/>
 );
 
-export {PrivateRoute, GuestRoute};
+const ManagerRoute = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={props => (
+        UserService.isManager() ? (
+            <Component {...props}/>
+        ) : (
+            <Redirect to={{
+                pathname: HOME_PATH,
+                state: { from: props.location }
+            }}/>
+        )
+    )}/>
+);
+
+export {PrivateRoute, GuestRoute, ManagerRoute};

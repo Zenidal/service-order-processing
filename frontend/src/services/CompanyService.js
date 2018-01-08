@@ -1,5 +1,5 @@
 import AxiosApiInstance from './AxiosApiInstance';
-import {COMPANY_BRANCH_PATH, COMPANY_PATH} from "../constants/RoutePaths";
+import {API_COMPANY_BRANCH_PATH, API_COMPANY_PATH} from "../constants/ApiRoutePaths";
 
 let instance;
 
@@ -14,7 +14,7 @@ export default class CompanyService {
     }
 
     searchCompany(q, limit, successCallback, errorCallback) {
-        return this.api.axiosObject.get(COMPANY_PATH + '/search', {
+        return this.api.axiosObject.get(API_COMPANY_PATH + '/search', {
             q: q,
             limit: limit
         })
@@ -22,8 +22,37 @@ export default class CompanyService {
             .catch(errorCallback);
     }
 
-    searchCompanyBranchByAddress(q, companyId, localityId, limit, successCallback, errorCallback){
-        return this.api.axiosObject.post(COMPANY_BRANCH_PATH + '/search', {
+    getAllCompanies(limit, pageNumber, successCallback, errorCallback) {
+        return this.api.axiosObject.get(API_COMPANY_PATH, {
+            params: {
+                pageNumber: pageNumber,
+                limit: limit
+            }
+        })
+            .then(successCallback)
+            .catch(errorCallback);
+    }
+
+    getCompany(id, successCallback, errorCallback) {
+        return this.api.axiosObject.get(API_COMPANY_PATH + '/' + id)
+            .then(successCallback)
+            .catch(errorCallback);
+    }
+
+    newCompany(company, successCallback, errorCallback) {
+        return this.api.axiosObject.post(API_COMPANY_PATH, company)
+            .then(successCallback)
+            .catch(errorCallback);
+    }
+
+    editCompany(company, successCallback, errorCallback) {
+        return this.api.axiosObject.put(API_COMPANY_PATH + '/' + company.id, company)
+            .then(successCallback)
+            .catch(errorCallback);
+    }
+
+    searchCompanyBranchByAddress(q, companyId, localityId, limit, successCallback, errorCallback) {
+        return this.api.axiosObject.post(API_COMPANY_BRANCH_PATH + '/search', {
             q: q,
             limit: limit,
             companyId: companyId,

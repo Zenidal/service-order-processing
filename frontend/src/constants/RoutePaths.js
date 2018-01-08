@@ -9,11 +9,12 @@ const ORDER_EDIT_PATH = '/orders/:number/edit';
 const ORDER_STATUS_MANAGEMENT_PATH = '/orders/:number/status-management';
 
 const COMPANY_PATH = '/companies';
-const COMPANY_BRANCH_PATH = '/company-branches';
-const LOCALITY_PATH = '/localities';
+const COMPANY_ALL_PATH = '/companies/:limit?/:page?';
+const COMPANY_NEW_PATH = '/companies/new';
+const COMPANY_EDIT_PATH = '/companies/:number/edit';
 
 const makeUrl = (path, parameters) => {
-    return path.replace(/\/:([\w0-9]+)/, function (match, p1) {
+    return path.replace(/\/:([\w0-9]+)\??/g, function (match, p1) {
         if (parameters[p1]) {
             return '/' + parameters[p1];
         }
@@ -31,7 +32,8 @@ export {
     ORDER_SHOW_PATH,
     ORDER_EDIT_PATH,
     ORDER_STATUS_MANAGEMENT_PATH,
-    COMPANY_BRANCH_PATH,
     COMPANY_PATH,
-    LOCALITY_PATH
+    COMPANY_ALL_PATH,
+    COMPANY_NEW_PATH,
+    COMPANY_EDIT_PATH
 };

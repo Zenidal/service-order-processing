@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Container, Grid, Item} from 'semantic-ui-react'
 import OrderService from "../../services/OrderService";
-import {mapOrder} from "../../constants/OrderHelper";
+import {mapOrder} from "../../constants/Mapper";
 import OrderView from "../../constants/OrderView";
 import OrderStatuses from '../../components/OrderStatuses';
 import {makeUrl, ORDER_EDIT_PATH, ORDER_PATH, ORDER_SHOW_PATH} from "../../constants/RoutePaths";

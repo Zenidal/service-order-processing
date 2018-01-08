@@ -89,6 +89,10 @@ class UserService {
     static isAuthenticated() {
         return !!localStorage.getItem('user');
     }
+
+    static isManager() {
+        return UserService.isAuthenticated() && UserService.user() && UserService.user().role.name === 'manager';
+    }
 }
 
 export default UserService;

@@ -5,7 +5,7 @@ import CompanyService from "../../services/CompanyService";
 import LocalityService from "../../services/LocalityService";
 import OrderForm from '../../constants/OrderForm';
 import {ORDER_PATH} from "../../constants/RoutePaths";
-import {mapOrder} from "../../constants/OrderHelper";
+import {mapOrder} from "../../constants/Mapper";
 import NotificationSystem from "react-notification-system";
 import ErrorView from "../../constants/ErrorView";
 

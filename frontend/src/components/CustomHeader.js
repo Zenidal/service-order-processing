@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Header, Menu} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 import UserService from "../services/UserService";
-import {HOME_PATH, REGISTER_PATH, LOGIN_PATH, ORDER_PATH} from '../constants/RoutePaths';
+import {HOME_PATH, REGISTER_PATH, LOGIN_PATH, ORDER_PATH, COMPANY_PATH} from '../constants/RoutePaths';
 import {withRouter} from 'react-router';
 import HeaderUserInfo from "./HeaderUserInfo";
 import NotificationSystem from "react-notification-system";
@@ -45,6 +45,9 @@ class CustomHeader extends Component {
         let orderLink = UserService.isAuthenticated() ?
             <Menu.Item as={Link} to={ORDER_PATH}>Orders</Menu.Item> :
             '';
+        let managerLink = UserService.isManager() ?
+            <Menu.Item as={Link} to={COMPANY_PATH}>Companies</Menu.Item> :
+            '';
         let loginLink = !UserService.isAuthenticated() ?
             <Menu.Item as={Link} to={LOGIN_PATH}>Sign in</Menu.Item> :
             '';
@@ -60,6 +63,7 @@ class CustomHeader extends Component {
                 <Menu>
                     {homeLink}
                     {orderLink}
+                    {managerLink}
                     {loginLink}
                     {registerLink}
                     {logoutLink}

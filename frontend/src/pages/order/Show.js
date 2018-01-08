@@ -6,7 +6,7 @@ import {
     makeUrl, ORDER_EDIT_PATH, ORDER_PATH,
     ORDER_STATUS_MANAGEMENT_PATH
 } from "../../constants/RoutePaths";
-import {mapOrder, mapOrderStatusHistory} from "../../constants/OrderHelper";
+import {mapOrder, mapOrderStatusHistory} from "../../constants/Mapper";
 import OrderView from '../../constants/OrderView';
 import OrderStatusHistoryView from '../../constants/OrderStatusHistoryView';
 import NotificationSystem from 'react-notification-system';

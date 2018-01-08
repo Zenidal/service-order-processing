@@ -33,4 +33,12 @@ const mapOrderStatusHistory = (responseStatusHistory) => {
     };
 };
 
-export {mapOrder, mapOrderStatusHistory};
+const mapCompany = (responseCompany) => {
+    return {
+        id: responseCompany.id,
+        name: responseCompany.name,
+        createdAt: responseCompany.created_at
+    };
+};
+
+export {mapOrder, mapOrderStatusHistory, mapCompany};

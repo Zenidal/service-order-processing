@@ -6,7 +6,7 @@ import {
     makeUrl, ORDER_EDIT_PATH, ORDER_NEW_PATH, ORDER_SHOW_PATH,
     ORDER_STATUS_MANAGEMENT_PATH
 } from "../../constants/RoutePaths";
-import {mapOrder} from "../../constants/OrderHelper";
+import {mapOrder} from "../../constants/Mapper";
 
 export default class Orders extends Component {
     constructor(props) {
