@@ -29,6 +29,9 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::any('localities/search', 'LocalityController@search');
 
+    Route::resource('companies', 'CompanyController', ['except' => [
+        'edit', 'create'
+    ]]);
     Route::any('companies/search', 'CompanyController@search');
 
     Route::any('company-branches/search', 'CompanyBranchController@searchByAddress');

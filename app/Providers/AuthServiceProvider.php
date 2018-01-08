@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Company;
+use App\Policies\CompanyPolicy;
 use App\Policies\OrderPolicy;
 use App\Policies\UserPolicy;
 use App\Order;
@@ -18,7 +20,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         User::class => UserPolicy::class,
-        Order::class => OrderPolicy::class
+        Order::class => OrderPolicy::class,
+        Company::class => CompanyPolicy::class
     ];
 
     /**
@@ -32,5 +35,6 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::resource('users', 'UserPolicy');
         Gate::resource('orders', 'OrderPolicy');
+        Gate::resource('companies', 'CompanyPolicy');
     }
 }
