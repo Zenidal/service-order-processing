@@ -52,4 +52,16 @@ class CompanyPolicy
     {
         return $user->role->isManager();
     }
+
+    /**
+     * Determine whether the order can delete the model.
+     *
+     * @param  User $user
+     * @param  Company $model
+     * @return mixed
+     */
+    public function delete(User $user, Company $model)
+    {
+        return $user->role->isManager();
+    }
 }

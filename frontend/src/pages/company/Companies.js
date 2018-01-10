@@ -24,6 +24,7 @@ export default class Companies extends Component {
         this.nextPage = this.nextPage.bind(this);
         this.previousPage = this.previousPage.bind(this);
         this.changeLimit = this.changeLimit.bind(this);
+        this.deleteCompany = this.deleteCompany.bind(this);
     }
 
     getCompanies(limit, pageNumber) {
@@ -50,6 +51,18 @@ export default class Companies extends Component {
     changeLimit(limit) {
         let url = makeUrl(COMPANY_ALL_PATH, {limit: limit, page: this.state.pageNumber});
         this.props.history.push(url);
+    }
+
+    deleteCompany(companyId) {
+        this.companyService.deleteCompany(companyId, function () {
+            this.setState(() => {
+                let companies = this.state.companies;
+                for (let index = 0; index < companies.length; index++) {
+                    if (companies[index].id === companyId) delete companies[index];
+                }
+                return {companies: companies};
+            })
+        }.bind(this));
     }
 
     componentWillReceiveProps(nextProps) {
@@ -83,11 +96,17 @@ export default class Companies extends Component {
                     <Table.Cell>
                         <Menu vertical>
                             <Menu.Item as={Link} to={makeUrl(COMPANY_EDIT_PATH, {number: company.id})}>Edit</Menu.Item>
+                            <Menu.Item
+                                onClick={() => {
+                                    this.deleteCompany(company.id);
+                                }}>
+                                Delete
+                            </Menu.Item>
                         </Menu>
                     </Table.Cell>
                 </Table.Row>
             );
-        }) : (
+        }.bind(this)) : (
             <Table.Row>
             </Table.Row>
         );

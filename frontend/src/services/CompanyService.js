@@ -51,6 +51,12 @@ export default class CompanyService {
             .catch(errorCallback);
     }
 
+    deleteCompany(companyId, successCallback, errorCallback) {
+        return this.api.axiosObject.delete(API_COMPANY_PATH + '/' + companyId)
+            .then(successCallback)
+            .catch(errorCallback);
+    }
+
     searchCompanyBranchByAddress(q, companyId, localityId, limit, successCallback, errorCallback) {
         return this.api.axiosObject.post(API_COMPANY_BRANCH_PATH + '/search', {
             q: q,

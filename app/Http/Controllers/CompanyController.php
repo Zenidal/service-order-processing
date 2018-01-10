@@ -96,4 +96,18 @@ class CompanyController extends Controller
         $company->save();
         return new Response(['error' => '', 'company' => $company]);
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  Company $company
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Company $company)
+    {
+        if ($company->forceDelete()) {
+            return new Response(['error' => '', 'company' => $company]);
+        }
+        return new Response(['error' => "Company with id {$company->id} wasn't deleted."], Response::HTTP_BAD_REQUEST);
+    }
 }
