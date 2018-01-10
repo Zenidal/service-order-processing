@@ -26,22 +26,6 @@ class Address extends Model
     protected $with = ['locality'];
 
     /**
-     * @return string
-     */
-    public function getExactAddress()
-    {
-        return $this->attributes['exact_address'];
-    }
-
-    /**
-     * @param string $exactAddress
-     */
-    public function setExactAddress($exactAddress)
-    {
-        $this->attributes['exact_address'] = $exactAddress;
-    }
-
-    /**
      * Get the branch located at this address.
      */
     public function companyBranch()

@@ -29,36 +29,4 @@ class Country extends Model
     {
         return $this->hasMany('App\Locality');
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->attributes['name'];
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->attributes['name'] = $name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIsoCode()
-    {
-        return $this->attributes['isoCode'];
-    }
-
-    /**
-     * @param mixed $isoCode
-     */
-    public function setIsoCode($isoCode)
-    {
-        $this->attributes['isoCode'] = $isoCode;
-    }
 }

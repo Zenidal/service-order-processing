@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.5.23 on 2017-12-08.
+ * Generated for Laravel 5.5.23 on 2018-01-10.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -7420,7 +7420,7 @@ namespace Illuminate\Support\Facades {
          * flexibility in controllers, it is better to explicitly get request parameters from the appropriate
          * public property instead (attributes, query, request).
          * 
-         * Order of precedence: PATH (routing placeholders or custom attributes), GET, BODY
+         * Orders of precedence: PATH (routing placeholders or custom attributes), GET, BODY
          *
          * @param string $key The key
          * @param mixed $default The default value if the parameter key does not exist

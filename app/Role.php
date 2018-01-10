@@ -32,34 +32,18 @@ class Role extends Model
         return $this->hasMany('App\User');
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->attributes['name'];
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->attributes['name'] = $name;
-    }
-
     public function isCustomer()
     {
-        return $this->getName() === Role::CUSTOMER_ROLE;
+        return $this->name === Role::CUSTOMER_ROLE;
     }
 
     public function isEngineer()
     {
-        return $this->getName() === Role::ENGINEER_ROLE;
+        return $this->name === Role::ENGINEER_ROLE;
     }
 
     public function isManager()
     {
-        return $this->getName() === Role::MANAGER_ROLE;
+        return $this->name === Role::MANAGER_ROLE;
     }
 }

@@ -27,6 +27,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRoleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $api_token
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Order[] $engineerOrders
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\OrderStatusHistory[] $orderStatusHistories
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Order[] $ownerOrders
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereApiToken($value)
  */
 class User extends Authenticatable
 {

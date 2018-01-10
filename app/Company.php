@@ -27,20 +27,4 @@ class Company extends Model
     {
         return $this->hasMany("App\CompanyBranch");
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->attributes['name'];
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->attributes['name'] = $name;
-    }
 }

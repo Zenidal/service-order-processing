@@ -21,6 +21,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int|null $engineer_id
+ * @property int $owner_id
+ * @property-read \App\User|null $engineer
+ * @property-read mixed $status_name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\OrderStatusHistory[] $orderStatusHistories
+ * @property-read \App\User $owner
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereEngineerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereOwnerId($value)
  */
 class Order extends Model
 {
@@ -60,22 +68,6 @@ class Order extends Model
         return $this->hasMany('App\OrderStatusHistory');
     }
 
-    /**
-     * @return string
-     */
-    public function getStatus()
-    {
-        return $this->attributes['status'];
-    }
-
-    /**
-     * @param string $status
-     */
-    public function setStatus($status)
-    {
-        $this->attributes['status'] = $status;
-    }
-
     public function getStatusNameAttribute()
     {
         switch ($this->attributes['status']) {
@@ -94,21 +86,5 @@ class Order extends Model
             default:
                 return '';
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->attributes['description'];
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
-    {
-        $this->attributes['description'] = $description;
     }
 }

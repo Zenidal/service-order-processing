@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Locality whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Locality whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Address[] $addresses
  */
 class Locality extends Model
 {
@@ -34,37 +35,5 @@ class Locality extends Model
     public function addresses()
     {
         return $this->hasMany('App\Address');
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->attributes['name'];
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->attributes['name'] = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->attributes['type'];
-    }
-
-    /**
-     * @param string $type
-     */
-    public function setType($type)
-    {
-        $this->attributes['type'] = $type;
     }
 }
