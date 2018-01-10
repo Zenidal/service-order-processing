@@ -35,6 +35,7 @@ export default class ProcessOrder extends Component {
                 description: '',
             },
             error: '',
+            fatalError: '',
             companies: [],
             localities: [],
             companyAddresses: [],
@@ -71,7 +72,7 @@ export default class ProcessOrder extends Component {
                 default:
                     message = '';
             }
-            this.setState({error: {message: message}});
+            this.setState({fatalError: {message: message}});
         }
     }
 
@@ -193,14 +194,14 @@ export default class ProcessOrder extends Component {
         );
     }
 
-    setApiValidationErrors(errors) {
+    setApiValidationErrors(error) {
         this.resetErrors();
 
-        this.setState({error: errors.join(' | ')});
+        this.setState({error: Array.isArray(error) ? error.join(' | ') : error});
     }
 
     resetErrors() {
-        this.setState({error: ''});
+        this.setState({error: '', fatalError: ''});
     }
 
     processOrder() {
@@ -213,6 +214,9 @@ export default class ProcessOrder extends Component {
             function (error) {
                 if (error.response) {
                     if (error.response.status === 400) {
+                        this.setApiValidationErrors(error.response.data.error);
+                    }
+                    if (error.response.status === 403) {
                         this.setApiValidationErrors(error.response.data.error);
                     }
                 } else {
@@ -252,7 +256,7 @@ export default class ProcessOrder extends Component {
 
     render() {
         let view = (props) => {
-            return !props.error ? (
+            return !props.fatalError ? (
                 <Container>
                     <OrderForm
                         actionText={props.actionText}
@@ -269,7 +273,7 @@ export default class ProcessOrder extends Component {
                     />
                     <NotificationSystem ref="notificationSystem"/>
                 </Container>
-            ) : (<ErrorView error={props.error}/>);
+            ) : (<ErrorView error={props.fatalError}/>);
         };
 
         return view({
@@ -280,6 +284,7 @@ export default class ProcessOrder extends Component {
             newCompanyAddress: this.state.newCompanyAddress,
             order: this.state.order,
             error: this.state.error,
+            fatalError: this.state.fatalError,
             handleChange: this.handleChange,
             handleSubmit: this.handleSubmit,
             searchCompanies: this.searchCompanies,
