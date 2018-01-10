@@ -39,9 +39,12 @@ class CompanyController extends Controller
 
         $limit = $request->limit ?? $request->limit;
         $pageNumber = $request->pageNumber ? $request->pageNumber : 0;
-        return new Response(['error' => '', 'companies' => $limit ?
-            Company::forPage($pageNumber, $limit)->get() :
-            Company::all()
+        return new Response([
+            'error' => '',
+            'companies' => $limit ?
+                Company::forPage($pageNumber, $limit)->get() :
+                Company::all(),
+            'total' => Company::count()
         ]);
     }
 

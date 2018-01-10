@@ -17,7 +17,8 @@ export default class Companies extends Component {
         this.state = {
             companies: [],
             limit: props.match.params.limit ? parseInt(props.match.params.limit, 10) : 10,
-            pageNumber: props.match.params.page ? parseInt(props.match.params.page, 10) : 1
+            pageNumber: props.match.params.page ? parseInt(props.match.params.page, 10) : 1,
+            totalOfAllCompanies: 0
         };
 
         this.nextPage = this.nextPage.bind(this);
@@ -27,12 +28,13 @@ export default class Companies extends Component {
 
     getCompanies(limit, pageNumber) {
         return this.companyService.getAllCompanies(limit, pageNumber, function (response) {
+            this.setState({totalOfAllCompanies: response.data.total});
             return response.data.companies ?
                 response.data.companies.map(function (company) {
                     return mapCompany(company);
                 }) :
                 [];
-        });
+        }.bind(this));
     }
 
     nextPage() {
@@ -115,7 +117,7 @@ export default class Companies extends Component {
                                     Previous
                                 </Button>
                                 }
-                                {this.state.companies.length > 0 &&
+                                {this.state.pageNumber * this.state.limit < this.state.totalOfAllCompanies &&
                                 <Button onClick={this.nextPage}>
                                     Next
                                 </Button>
