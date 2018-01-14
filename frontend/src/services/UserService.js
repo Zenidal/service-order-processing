@@ -9,6 +9,7 @@ class UserService {
             instance = this;
         }
         this.api = new AxiosApiInstance();
+        this.api.axiosObject.defaults.params.api_token = UserService.apiToken() ? UserService.apiToken()  : {};
 
         this.api.axiosObject.interceptors.response.use(
             function (response) {

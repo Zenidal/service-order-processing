@@ -14,7 +14,7 @@ export default class CompanyService {
     }
 
     searchCompany(q, limit, successCallback, errorCallback) {
-        return this.api.axiosObject.get(API_COMPANY_PATH + '/search', {
+        return this.api.axiosObject.post(API_COMPANY_PATH + '/search', {
             q: q,
             limit: limit
         })

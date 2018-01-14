@@ -128,7 +128,7 @@ export default class ProcessOrder extends Component {
                     message: error.message,
                     level: 'error'
                 });
-            }
+            }.bind(this)
         );
     }
 
