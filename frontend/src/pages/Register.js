@@ -1,19 +1,17 @@
 import React, {Component} from 'react';
 import AxiosApiInstance from '../services/AxiosApiInstance';
-import UserService from '../services/UserService';
-import RoleService from '../services/RoleService';
 import {LOGIN_PATH} from "../constants/RoutePaths";
 import NotificationSystem from "react-notification-system";
 import RegisterForm from "../constants/RegisterForm";
+import ServiceContainer from "../components/ServiceContainer";
 
 export default class Register extends Component {
     constructor(props) {
         super(props);
 
         this.api = new AxiosApiInstance();
-        this.userService = new UserService();
-        this.roleService = new RoleService();
         this.notificationSystem = null;
+        this.serviceContainer = null;
 
         this.state = {
             roles: [],
@@ -37,8 +35,10 @@ export default class Register extends Component {
     }
 
     componentDidMount() {
-        this.initializeRoles();
         this.notificationSystem = this.refs.notificationSystem;
+        this.serviceContainer = this.refs.serviceContainer;
+
+        this.initializeRoles();
     }
 
     handleChange(event, {name, value}) {
@@ -54,7 +54,7 @@ export default class Register extends Component {
     }
 
     initializeRoles() {
-        this.roleService.getAllRoles(function (response) {
+        this.serviceContainer.roleService.getAllRoles(function (response) {
             this.setState({
                 roles: response.data.roles.map(function (role, index) {
                     return {
@@ -100,7 +100,7 @@ export default class Register extends Component {
     }
 
     register() {
-        this.userService.register(
+        this.serviceContainer.userService.register(
             this.state.registeredUser,
             function (response) {
                 this.props.history.push(LOGIN_PATH)
@@ -130,6 +130,7 @@ export default class Register extends Component {
                     handleSubmit={this.handleSubmit}
                 />
                 <NotificationSystem ref="notificationSystem"/>
+                <ServiceContainer ref="serviceContainer"/>
             </div>
         )
     }

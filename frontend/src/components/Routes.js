@@ -6,7 +6,6 @@ import ShowOrder from '../pages/order/Show';
 import ProcessOrder from '../pages/order/Process';
 import Register from '../pages/Register';
 import Login from '../pages/Login';
-import UserService from "../services/UserService";
 import {
     HOME_PATH, REGISTER_PATH, LOGIN_PATH, ORDER_PATH, ORDER_EDIT_PATH,
     ORDER_NEW_PATH, ORDER_STATUS_MANAGEMENT_PATH, ORDER_SHOW_PATH, COMPANY_ALL_PATH, COMPANY_NEW_PATH,
@@ -16,17 +15,13 @@ import {GuestRoute, PrivateRoute, ManagerRoute} from '../constants/RouteAccess';
 import StatusManagementOrder from "../pages/order/StatusManagement";
 import Companies from "../pages/company/Companies";
 import ProcessCompany from "../pages/company/Process";
+import * as UserHelper from "../constants/UserHelper";
 
 export default class Routes extends Component {
-    constructor(props) {
-        super(props);
-        this.userService = new UserService();
-    }
-
     render() {
         return (
             <Switch>
-                <Route exact path={HOME_PATH} component={UserService.isAuthenticated() ? Home : Login}/>
+                <Route exact path={HOME_PATH} component={UserHelper.isAuthenticated() ? Home : Login}/>
 
                 <PrivateRoute exact path={ORDER_PATH} component={Orders}/>
                 <PrivateRoute exact path={ORDER_SHOW_PATH} component={ShowOrder}/>

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Item, Container, Grid} from 'semantic-ui-react'
-import OrderService from "../../services/OrderService";
 import {Link} from 'react-router-dom';
 import {
     makeUrl, ORDER_EDIT_PATH, ORDER_PATH,
@@ -11,13 +10,14 @@ import OrderView from '../../constants/OrderView';
 import OrderStatusHistoryView from '../../constants/OrderStatusHistoryView';
 import NotificationSystem from 'react-notification-system';
 import ErrorView from "../../constants/ErrorView";
+import ServiceContainer from "../../components/ServiceContainer";
 
 export default class ShowOrder extends Component {
     constructor(props) {
         super(props);
 
-        this.orderService = new OrderService();
         this.notificationSystem = null;
+        this.serviceContainer = null;
 
         this.state = {
             orderId: props.match.params.number,
@@ -31,6 +31,7 @@ export default class ShowOrder extends Component {
 
     componentDidMount() {
         this.notificationSystem = this.refs.notificationSystem;
+        this.serviceContainer = this.refs.serviceContainer;
         this.getOrder();
         this.getStatusHistories();
     }
@@ -53,7 +54,7 @@ export default class ShowOrder extends Component {
     }
 
     getOrder() {
-        this.orderService.getOrder(this.state.orderId,
+        this.serviceContainer.orderService.getOrder(this.state.orderId,
             function (response) {
                 this.setState(() => {
                     return {order: mapOrder(response.data.order)};
@@ -62,7 +63,7 @@ export default class ShowOrder extends Component {
     }
 
     getStatusHistories() {
-        this.orderService.getStatusHistories(this.state.orderId,
+        this.serviceContainer.orderService.getStatusHistories(this.state.orderId,
             function (response) {
                 this.setState(() => {
                     return {
@@ -112,6 +113,7 @@ export default class ShowOrder extends Component {
                         </Grid.Row>
                     </Grid>
                     <NotificationSystem ref="notificationSystem"/>
+                    <ServiceContainer ref="serviceContainer"/>
                 </Container>
             ) : (<ErrorView error={props.error}/>)
         };

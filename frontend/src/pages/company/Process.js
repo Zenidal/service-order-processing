@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
 import {Container} from 'semantic-ui-react'
-import CompanyService from "../../services/CompanyService";
 import CompanyForm from '../../constants/CompanyForm';
 import {COMPANY_PATH} from "../../constants/RoutePaths";
 import {mapCompany} from "../../constants/Mapper";
 import NotificationSystem from "react-notification-system";
 import ErrorView from "../../constants/ErrorView";
+import ServiceContainer from "../../components/ServiceContainer";
 
 export default class ProcessCompany extends Component {
     constructor(props) {
         super(props);
 
-        this.companyService = new CompanyService();
+        this.serviceContainer = null;
         this.notificationSystem = null;
 
         let companyId = (props.match && props.match.params.number) || null;
@@ -33,8 +33,10 @@ export default class ProcessCompany extends Component {
     }
 
     componentDidMount() {
-        if (this.state.companyId) this.getCompany();
+        this.serviceContainer = this.refs.serviceContainer;
         this.notificationSystem = this.refs.notificationSystem;
+
+        if (this.state.companyId) this.getCompany();
     }
 
     handleError(error) {
@@ -55,7 +57,7 @@ export default class ProcessCompany extends Component {
     }
 
     getCompany() {
-        this.companyService.getCompany(this.state.companyId, function (response) {
+        this.serviceContainer.companyService.getCompany(this.state.companyId, function (response) {
             this.setState(() => {
                 return {
                     company: mapCompany(response.data.company)
@@ -76,7 +78,7 @@ export default class ProcessCompany extends Component {
 
     processCompany() {
         let method = this.state.companyId ? 'editCompany' : 'newCompany';
-        this.companyService[method](
+        this.serviceContainer.companyService[method](
             this.state.company,
             function (response) {
                 this.props.history.push(COMPANY_PATH);
@@ -120,6 +122,7 @@ export default class ProcessCompany extends Component {
                         handleSubmit={props.handleSubmit}
                     />
                     <NotificationSystem ref="notificationSystem"/>
+                    <ServiceContainer ref="serviceContainer"/>
                 </Container>
             ) : (<ErrorView error={props.fatalError}/>);
         };

@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
 import {Table, Menu, Container} from 'semantic-ui-react'
-import OrderService from "../../services/OrderService";
 import {Link} from 'react-router-dom';
 import {
     makeUrl, ORDER_EDIT_PATH, ORDER_NEW_PATH, ORDER_SHOW_PATH,
     ORDER_STATUS_MANAGEMENT_PATH
 } from "../../constants/RoutePaths";
 import {mapOrder} from "../../constants/Mapper";
+import ServiceContainer from "../../components/ServiceContainer";
 
 export default class Orders extends Component {
     constructor(props) {
         super(props);
 
-        this.orderService = new OrderService();
+        this.serviceContainer = null;
 
         this.state = {
             orders: []
@@ -20,7 +20,7 @@ export default class Orders extends Component {
     }
 
     getOrders() {
-        this.orderService.getAllOrders(function (response) {
+        this.serviceContainer.orderService.getAllOrders(function (response) {
             this.setState({
                 orders: response.data.orders.map(function (order, index) {
                     return mapOrder(order);
@@ -30,6 +30,7 @@ export default class Orders extends Component {
     }
 
     componentDidMount() {
+        this.serviceContainer = this.refs.serviceContainer;
         this.getOrders();
     }
 
@@ -90,6 +91,7 @@ export default class Orders extends Component {
                         </Table.Row>
                     </Table.Footer>
                 </Table>
+                <ServiceContainer ref="serviceContainer"/>
             </Container>
         );
     }

@@ -1,12 +1,9 @@
 import React, {Component} from 'react';
 import {Form, Button, Message} from 'semantic-ui-react';
-import UserService from "../services/UserService";
 
 export default class StatusForm extends Component {
     constructor(props) {
         super(props);
-
-        this.userService = new UserService();
 
         this.state = {
             comment: '',

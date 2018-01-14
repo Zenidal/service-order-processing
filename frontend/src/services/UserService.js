@@ -1,5 +1,6 @@
 import AxiosApiInstance from './AxiosApiInstance';
 import {API_LOGIN_PATH, API_LOGOUT_PATH, API_REGISTER_PATH, API_USER_PATH} from "../constants/ApiRoutePaths";
+import * as UserHelper from "../constants/UserHelper";
 
 let instance;
 
@@ -9,7 +10,7 @@ class UserService {
             instance = this;
         }
         this.api = new AxiosApiInstance();
-        this.api.axiosObject.defaults.params.api_token = UserService.apiToken() ? UserService.apiToken()  : {};
+        this.api.axiosObject.defaults.params.api_token = UserHelper.apiToken() ? UserHelper.apiToken()  : {};
 
         this.api.axiosObject.interceptors.response.use(
             function (response) {
@@ -77,22 +78,6 @@ class UserService {
                     errorCallback(error);
                 }
             );
-    }
-
-    static user() {
-        return JSON.parse(localStorage.getItem('user')) || null;
-    }
-
-    static apiToken() {
-        return localStorage.getItem('apiToken') || null;
-    }
-
-    static isAuthenticated() {
-        return !!localStorage.getItem('user');
-    }
-
-    static isManager() {
-        return UserService.isAuthenticated() && UserService.user() && UserService.user().role.name === 'manager';
     }
 }
 

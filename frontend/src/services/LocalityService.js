@@ -3,7 +3,7 @@ import {API_LOCALITY_PATH} from "../constants/ApiRoutePaths";
 
 let instance;
 
-export default class CompanyService {
+export default class LocalityService {
     constructor() {
         if (!instance) {
             instance = this;

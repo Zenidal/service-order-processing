@@ -1,11 +1,11 @@
 import React from 'react';
 import {Route, Redirect} from 'react-router';
-import UserService from "../services/UserService";
 import {HOME_PATH, LOGIN_PATH} from "./RoutePaths";
+import * as UserHelper from "./UserHelper";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props => (
-        UserService.isAuthenticated() ? (
+        UserHelper.isAuthenticated() ? (
             <Component {...props}/>
         ) : (
             <Redirect to={{
@@ -18,7 +18,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 const GuestRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props => (
-        !UserService.isAuthenticated() ? (
+        !UserHelper.isAuthenticated() ? (
             <Component {...props}/>
         ) : (
             <Redirect to={{
@@ -31,7 +31,7 @@ const GuestRoute = ({ component: Component, ...rest }) => (
 
 const ManagerRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props => (
-        UserService.isManager() ? (
+        UserHelper.isManager() ? (
             <Component {...props}/>
         ) : (
             <Redirect to={{

@@ -1,17 +1,18 @@
 import React, {Component} from 'react';
 import {Header, Menu} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
-import UserService from "../services/UserService";
 import {HOME_PATH, REGISTER_PATH, LOGIN_PATH, ORDER_PATH, COMPANY_PATH} from '../constants/RoutePaths';
 import {withRouter} from 'react-router';
 import HeaderUserInfo from "./HeaderUserInfo";
 import NotificationSystem from "react-notification-system";
+import ServiceContainer from "./ServiceContainer";
+import * as UserHelper from "../constants/UserHelper";
 
 class CustomHeader extends Component {
     constructor(props) {
         super(props);
 
-        this.userService = new UserService();
+        this.serviceContainer = null;
         this.notificationSystem = null;
 
         this.state = {};
@@ -21,10 +22,11 @@ class CustomHeader extends Component {
 
     componentDidMount() {
         this.notificationSystem = this.refs.notificationSystem;
+        this.serviceContainer = this.refs.serviceContainer;
     }
 
     logout(event) {
-        this.userService.logout(
+        this.serviceContainer.userService.logout(
             function (response) {
                 this.props.history.push(LOGIN_PATH);
             }.bind(this),
@@ -39,22 +41,22 @@ class CustomHeader extends Component {
     }
 
     render() {
-        let homeLink = UserService.isAuthenticated() ?
+        let homeLink = UserHelper.isAuthenticated() ?
             <Menu.Item as={Link} to={HOME_PATH}>Home</Menu.Item> :
             '';
-        let orderLink = UserService.isAuthenticated() ?
+        let orderLink = UserHelper.isAuthenticated() ?
             <Menu.Item as={Link} to={ORDER_PATH}>Orders</Menu.Item> :
             '';
-        let managerLink = UserService.isManager() ?
+        let managerLink = UserHelper.isManager() ?
             <Menu.Item as={Link} to={COMPANY_PATH}>Companies</Menu.Item> :
             '';
-        let loginLink = !UserService.isAuthenticated() ?
+        let loginLink = !UserHelper.isAuthenticated() ?
             <Menu.Item as={Link} to={LOGIN_PATH}>Sign in</Menu.Item> :
             '';
-        let registerLink = !UserService.isAuthenticated() ?
+        let registerLink = !UserHelper.isAuthenticated() ?
             <Menu.Item as={Link} to={REGISTER_PATH}>Sign up</Menu.Item> :
             '';
-        let logoutLink = UserService.isAuthenticated() ?
+        let logoutLink = UserHelper.isAuthenticated() ?
             <Menu.Item onClick={this.logout}>Log out</Menu.Item> :
             '';
 
@@ -67,8 +69,9 @@ class CustomHeader extends Component {
                     {loginLink}
                     {registerLink}
                     {logoutLink}
-                    <HeaderUserInfo user={UserService.user()}/>
+                    <HeaderUserInfo user={UserHelper.user()}/>
                     <NotificationSystem ref="notificationSystem"/>
+                    <ServiceContainer ref="serviceContainer"/>
                 </Menu>
             </Header>
         );

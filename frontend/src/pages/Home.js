@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {Container, Statistic} from 'semantic-ui-react';
-import StatisticService from "../services/StatisticService";
 import NotificationSystem from "react-notification-system";
+import ServiceContainer from "../components/ServiceContainer";
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
 
-        this.statisticService = new StatisticService();
+        this.serviceContainer = null;
         this.notificationSystem = null;
 
         this.state = {
@@ -25,7 +25,7 @@ export default class Home extends Component {
     }
 
     getStatistic(){
-        this.statisticService.getStatistics({
+        this.serviceContainer.statisticService.getStatistics({
                 fields: [
                     'user',
                     'order',
@@ -59,6 +59,7 @@ export default class Home extends Component {
 
     componentDidMount() {
         this.notificationSystem = this.refs.notificationSystem;
+        this.serviceContainer = this.refs.serviceContainer;
         this.getStatistic();
     }
 
@@ -97,6 +98,7 @@ export default class Home extends Component {
                     </Statistic>
                 </Statistic.Group>
                 <NotificationSystem ref="notificationSystem"/>
+                <ServiceContainer ref="serviceContainer"/>
             </Container>
         );
     }

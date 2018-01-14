@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
 import {Table, Menu, Container, Button} from 'semantic-ui-react'
-import CompanyService from "../../services/CompanyService";
 import {Link} from 'react-router-dom';
 import {
     COMPANY_ALL_PATH, COMPANY_EDIT_PATH, COMPANY_NEW_PATH,
     makeUrl
 } from "../../constants/RoutePaths";
 import {mapCompany} from "../../constants/Mapper";
+import ServiceContainer from "../../components/ServiceContainer";
 
 export default class Companies extends Component {
     constructor(props) {
         super(props);
 
-        this.companyService = new CompanyService();
+        this.serviceContainer = null;
 
         this.state = {
             companies: [],
@@ -28,7 +28,7 @@ export default class Companies extends Component {
     }
 
     getCompanies(limit, pageNumber) {
-        return this.companyService.getAllCompanies(limit, pageNumber, function (response) {
+        return this.serviceContainer.companyService.getAllCompanies(limit, pageNumber, function (response) {
             this.setState({totalOfAllCompanies: response.data.total});
             return response.data.companies ?
                 response.data.companies.map(function (company) {
@@ -54,7 +54,7 @@ export default class Companies extends Component {
     }
 
     deleteCompany(companyId) {
-        this.companyService.deleteCompany(companyId, function () {
+        this.serviceContainer.companyService.deleteCompany(companyId, function () {
             this.setState(() => {
                 let companies = this.state.companies;
                 for (let index = 0; index < companies.length; index++) {
@@ -80,6 +80,7 @@ export default class Companies extends Component {
     }
 
     componentDidMount() {
+        this.serviceContainer = this.refs.serviceContainer;
         this.getCompanies(this.state.limit, this.state.pageNumber)
             .then(function (companies) {
                 this.setState({companies: companies});
@@ -160,6 +161,7 @@ export default class Companies extends Component {
                         </Table.Row>
                     </Table.Footer>
                 </Table>
+                <ServiceContainer ref="serviceContainer"/>
             </Container>
         );
     }

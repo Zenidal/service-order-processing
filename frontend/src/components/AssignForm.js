@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {Form, Dropdown, Button, Message} from 'semantic-ui-react';
-import UserService from "../services/UserService";
+import ServiceContainer from "./ServiceContainer";
 
 export default class AssignForm extends Component {
     constructor(props) {
         super(props);
 
-        this.userService = new UserService();
+        this.serviceContainer = null;
 
         this.state = {
             engineerId: this.props.engineerId,
@@ -19,8 +19,12 @@ export default class AssignForm extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
+    componentDidMount(){
+        this.serviceContainer = this.refs.serviceContainer;
+    }
+
     searchEngineers() {
-        this.userService.searchEngineers(
+        this.serviceContainer.userService.searchEngineers(
             function (response) {
                 this.setState(() => {
                     let engineers = response.data.users.map(function (user) {
@@ -99,6 +103,7 @@ export default class AssignForm extends Component {
                         Assign
                     </Button>
                 </Form.Group>
+                <ServiceContainer ref="serviceContainer"/>
             </Form>
         );
     }

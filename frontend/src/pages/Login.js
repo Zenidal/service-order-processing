@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
-import UserService from '../services/UserService';
 import {HOME_PATH} from "../constants/RoutePaths";
 import NotificationSystem from "react-notification-system";
 import LoginForm from "../constants/LoginForm";
+import ServiceContainer from "../components/ServiceContainer";
 
 export default class Login extends Component {
     constructor(props) {
         super(props);
 
-        this.userService = new UserService();
+        this.serviceContainer = null;
         this.notificationSystem = null;
 
         this.state = {
@@ -26,6 +26,7 @@ export default class Login extends Component {
     }
 
     componentDidMount() {
+        this.serviceContainer = this.refs.serviceContainer;
         this.notificationSystem = this.refs.notificationSystem;
     }
 
@@ -71,7 +72,7 @@ export default class Login extends Component {
     }
 
     login() {
-        this.userService.login(
+        this.serviceContainer.userService.login(
             this.state.loginUser,
             function (response) {
                 this.props.history.push(HOME_PATH);
@@ -100,6 +101,7 @@ export default class Login extends Component {
                     handleSubmit={this.handleSubmit}
                 />
                 <NotificationSystem ref="notificationSystem"/>
+                <ServiceContainer ref="serviceContainer"/>
             </div>
         );
     }

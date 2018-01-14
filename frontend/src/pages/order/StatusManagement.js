@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
 import {Container, Grid, Item} from 'semantic-ui-react'
-import OrderService from "../../services/OrderService";
 import {mapOrder} from "../../constants/Mapper";
 import OrderView from "../../constants/OrderView";
 import OrderStatuses from '../../components/OrderStatuses';
 import {makeUrl, ORDER_EDIT_PATH, ORDER_PATH, ORDER_SHOW_PATH} from "../../constants/RoutePaths";
 import {Link} from "react-router-dom";
 import ErrorView from "../../constants/ErrorView";
+import ServiceContainer from "../../components/ServiceContainer";
 
 export default class StatusManagementOrder extends Component {
     constructor(props) {
         super(props);
 
-        this.orderService = new OrderService();
+        this.serviceContainer = null;
 
         this.state = {
             orderId: props.match.params.number,
@@ -30,8 +30,13 @@ export default class StatusManagementOrder extends Component {
         this.reopenOrder = this.reopenOrder.bind(this);
     }
 
+    componentDidMount() {
+        this.serviceContainer = this.refs.serviceContainer;
+        this.getOrder();
+    }
+
     getOrder() {
-        this.orderService.getOrder(this.state.orderId,
+        this.serviceContainer.orderService.getOrder(this.state.orderId,
             function (response) {
                 this.setState(() => {
                     let mappedOrder = mapOrder(response.data.order);
@@ -66,7 +71,7 @@ export default class StatusManagementOrder extends Component {
     }
 
     assignOrder(engineerId, callback, comment) {
-        this.orderService.assign(
+        this.serviceContainer.orderService.assign(
             this.state.order,
             engineerId,
             comment,
@@ -81,7 +86,7 @@ export default class StatusManagementOrder extends Component {
     }
 
     startProgressOrder(callback, comment) {
-        this.orderService.startProgress(
+        this.serviceContainer.orderService.startProgress(
             this.state.order,
             comment,
             function (response) {
@@ -95,7 +100,7 @@ export default class StatusManagementOrder extends Component {
     }
 
     resolveOrder(callback, comment) {
-        this.orderService.resolve(
+        this.serviceContainer.orderService.resolve(
             this.state.order,
             comment,
             function (response) {
@@ -109,7 +114,7 @@ export default class StatusManagementOrder extends Component {
     }
 
     closeOrder(callback, comment) {
-        this.orderService.close(
+        this.serviceContainer.orderService.close(
             this.state.order,
             comment,
             function (response) {
@@ -123,7 +128,7 @@ export default class StatusManagementOrder extends Component {
     }
 
     reopenOrder(callback, comment) {
-        this.orderService.reopen(
+        this.serviceContainer.orderService.reopen(
             this.state.order,
             comment,
             function (response) {
@@ -134,10 +139,6 @@ export default class StatusManagementOrder extends Component {
                 callback(error.response.data.error);
             }
         );
-    }
-
-    componentDidMount() {
-        this.getOrder();
     }
 
     render() {
@@ -176,6 +177,7 @@ export default class StatusManagementOrder extends Component {
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
+                    <ServiceContainer ref="serviceContainer"/>
                 </Container>
             ) : (<ErrorView error={props.error}/>);
         };

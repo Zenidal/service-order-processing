@@ -1,22 +1,18 @@
 import React, {Component} from 'react';
 import {Container} from 'semantic-ui-react'
-import OrderService from "../../services/OrderService";
-import CompanyService from "../../services/CompanyService";
-import LocalityService from "../../services/LocalityService";
 import OrderForm from '../../constants/OrderForm';
 import {ORDER_PATH} from "../../constants/RoutePaths";
 import {mapOrder} from "../../constants/Mapper";
 import NotificationSystem from "react-notification-system";
 import ErrorView from "../../constants/ErrorView";
+import ServiceContainer from "../../components/ServiceContainer";
 
 export default class ProcessOrder extends Component {
     constructor(props) {
         super(props);
 
-        this.orderService = new OrderService();
-        this.companyService = new CompanyService();
-        this.localityService = new LocalityService();
         this.notificationSystem = null;
+        this.serviceContainer = null;
         this.searchLimit = 10;
 
         let orderId = (props.match && props.match.params.number) || null;
@@ -55,8 +51,10 @@ export default class ProcessOrder extends Component {
     }
 
     componentDidMount() {
-        if (this.state.orderId) this.getOrder();
+        this.serviceContainer = this.refs.serviceContainer;
         this.notificationSystem = this.refs.notificationSystem;
+
+        if (this.state.orderId) this.getOrder();
     }
 
     handleError(error) {
@@ -77,7 +75,7 @@ export default class ProcessOrder extends Component {
     }
 
     getOrder() {
-        this.orderService.getOrder(this.state.orderId, function (response) {
+        this.serviceContainer.orderService.getOrder(this.state.orderId, function (response) {
             this.setState(() => {
                 return {
                     order: mapOrder(response.data.order),
@@ -108,7 +106,7 @@ export default class ProcessOrder extends Component {
     }
 
     searchCompanies(event, {searchQuery}) {
-        this.companyService.searchCompany(
+        this.serviceContainer.companyService.searchCompany(
             searchQuery,
             this.searchLimit,
             function (response) {
@@ -133,7 +131,7 @@ export default class ProcessOrder extends Component {
     }
 
     searchLocalities(event, {searchQuery}) {
-        this.localityService.searchLocality(
+        this.serviceContainer.localityServiceService.searchLocality(
             searchQuery,
             this.searchLimit,
             function (response) {
@@ -166,7 +164,7 @@ export default class ProcessOrder extends Component {
     }
 
     searchCompanyBranches(event, {searchQuery}) {
-        this.companyService.searchCompanyBranchByAddress(
+        this.serviceContainer.companyService.searchCompanyBranchByAddress(
             searchQuery,
             this.state.order.companyId,
             this.state.order.localityId,
@@ -206,7 +204,7 @@ export default class ProcessOrder extends Component {
 
     processOrder() {
         let method = this.state.orderId ? 'editOrder' : 'newOrder';
-        this.orderService[method](
+        this.serviceContainer.orderService[method](
             this.state.order,
             function (response) {
                 this.props.history.push(ORDER_PATH);
@@ -272,6 +270,7 @@ export default class ProcessOrder extends Component {
                         searchCompanyBranches={props.searchCompanyBranches}
                     />
                     <NotificationSystem ref="notificationSystem"/>
+                    <ServiceContainer ref="serviceContainer"/>
                 </Container>
             ) : (<ErrorView error={props.fatalError}/>);
         };
