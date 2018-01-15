@@ -131,7 +131,7 @@ export default class ProcessOrder extends Component {
     }
 
     searchLocalities(event, {searchQuery}) {
-        this.serviceContainer.localityServiceService.searchLocality(
+        this.serviceContainer.localityService.searchLocality(
             searchQuery,
             this.searchLimit,
             function (response) {
@@ -151,7 +151,7 @@ export default class ProcessOrder extends Component {
                     message: error.message,
                     level: 'error'
                 });
-            }
+            }.bind(this)
         );
     }
 
@@ -188,7 +188,7 @@ export default class ProcessOrder extends Component {
                     message: error.message,
                     level: 'error'
                 });
-            }
+            }.bind(this)
         );
     }
 

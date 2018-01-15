@@ -16,7 +16,6 @@ export default class ShowOrder extends Component {
     constructor(props) {
         super(props);
 
-        this.notificationSystem = null;
         this.serviceContainer = null;
 
         this.state = {
@@ -30,7 +29,6 @@ export default class ShowOrder extends Component {
     }
 
     componentDidMount() {
-        this.notificationSystem = this.refs.notificationSystem;
         this.serviceContainer = this.refs.serviceContainer;
         this.getOrder();
         this.getStatusHistories();
@@ -112,7 +110,6 @@ export default class ShowOrder extends Component {
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
-                    <NotificationSystem ref="notificationSystem"/>
                     <ServiceContainer ref="serviceContainer"/>
                 </Container>
             ) : (<ErrorView error={props.error}/>)
